@@ -419,16 +419,21 @@ export async function buildReport({ query, myStance, stances, history }) {
 
   // 立场互补的答主：从所有对立阵营里挑，按权威度 × 赞同数排序，同一位作者只出现一次
   const seenAuthors = new Set();
-  const authors = [];
+  const pool = [];
   for (const s of others) {
     for (const r of s.representatives) {
       if (seenAuthors.has(r.author)) continue;
       seenAuthors.add(r.author);
-      authors.push({ ...r, stanceName: s.name, stanceColor: s.color });
+      pool.push({ ...r, stanceName: s.name, stanceColor: s.color });
     }
   }
-  authors.sort((a, b) => answerWeight(b) - answerWeight(a));
-  authors.length = Math.min(authors.length, 4);
+  pool.sort((a, b) => answerWeight(b) - answerWeight(a));
+  // 推荐要有信号：光靠权威等级会把"有认证但只有 6 个赞同"的答主也推出来。
+  // 所以同时要求相对权重和绝对赞同量；小话题里如果这样筛空了，就退回只按权重取。
+  const topWeight = pool.length ? answerWeight(pool[0]) : 0;
+  const byWeight = pool.filter((a) => answerWeight(a) >= topWeight * 0.3);
+  const byVotes = byWeight.filter((a) => (a.voteUp || 0) >= 30);
+  const authors = (byVotes.length ? byVotes : byWeight).slice(0, 4);
 
   const insights = [
     {

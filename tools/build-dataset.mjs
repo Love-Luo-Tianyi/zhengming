@@ -88,8 +88,9 @@ function answerWeight(a) {
   return Math.pow(auth, 1.5) * Math.log10(Math.max(0, a.voteUp || 0) + 10 + 1);
 }
 
-/** 开放平台返回的是 1–4 的权威等级；这里用可核验的站内信号做等价映射 */
+/** 开放平台返回的是 1–4 的权威等级（优先使用）；页面采集的样本用可核验的站内信号做等价映射 */
 function authFromAnswer(a) {
+  if (a.authority >= 1 && a.authority <= 4) return Number(a.authority);
   const badges = ['优秀回答者', '新知答主', '答主', '话题优秀回答者'];
   const text = `${a.badge || ''}`;
   if (badges.some((b) => text.includes(b))) return 4;
@@ -340,13 +341,15 @@ async function main() {
     console.log(`\n=== ${topic.id} · ${topic.title} ===`);
 
     let raw = [];
-    for (const file of topic.sources) {
+    // 官方接口采集的结果（tools/raw/api/）优先级更高，有就一并使用
+    for (const file of [`api/${topic.id}.json`, ...topic.sources]) {
       try {
         const data = JSON.parse(await fs.readFile(path.join(RAW, file), 'utf8'));
-        raw.push(...data);
-      } catch (err) {
-        console.warn(`  跳过 ${file}：${err.message}`);
-      }
+        if (Array.isArray(data) && data.length) {
+          raw.push(...data);
+          if (file.startsWith('api/')) console.log(`  使用官方接口数据 ${file}（${data.length} 条）`);
+        }
+      } catch { /* 文件不存在就跳过 */ }
     }
     if (topic.filter) raw = raw.filter(topic.filter);
     if (!raw.length) { console.warn('  没有可用回答，跳过'); continue; }
