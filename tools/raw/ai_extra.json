@@ -1,0 +1,74 @@
+[
+ {
+  "author": "知乎用户",
+  "authorUrl": "https://www.zhihu.com/people/",
+  "badge": "",
+  "commentCount": 15,
+  "createdAt": "2022-12-11T23:43:52.000Z",
+  "followerCount": 32,
+  "qTitle": "ChatGPT的出现会不会导致底层程序员失业？",
+  "text": "第一个小时:chatgpt什么都懂，还能帮我重构代码，以后繁琐的任务就交给它实现，我可以从重复劳动中解放出来做更有创意的事情。 第二个小时:这个东西怎么不能运行？它说我库的版本可能不对，于是查文档，开始无聊，回来跟它聊天 第三个小时:聊天 第四个小时:聊天 第五个小时:先不聊天，问问这东西代码怎么跑通 第六个小时:还是结合谷歌和stackoverflow吧，它不一定了解具体库的使用 …… 第二天:经过长时间的询问和聊天我得出了一个结论:以后繁琐的重复劳动还是交给人类来做吧，ai应该解放出来做更有创意的事情。",
+  "url": "https://www.zhihu.com/question/570596331/answer/2797632137",
+  "voteUp": 356
+ },
+ {
+  "author": "知乎用户",
+  "authorUrl": "https://www.zhihu.com/people/",
+  "badge": "",
+  "commentCount": 43,
+  "createdAt": "2022-12-13T06:51:42.000Z",
+  "followerCount": 69992,
+  "qTitle": "ChatGPT的出现会不会导致底层程序员失业？",
+  "text": "拖拽建站出来了，你们说程序员会失业。 低代码出来了，你们说程序员会失业。 Copilot 出来了，你们说程序员会失业。 Chatgpt出来了，你们说程序员会失业。 我总算明白了，你们就是想程序员失业。 你们到底跟程序员有多大仇？",
+  "url": "https://www.zhihu.com/question/570596331/answer/2799620450",
+  "voteUp": 720
+ },
+ {
+  "author": "知乎用户",
+  "authorUrl": "https://www.zhihu.com/people/",
+  "badge": "",
+  "commentCount": 243,
+  "createdAt": "2023-01-26T15:21:43.000Z",
+  "followerCount": 316,
+  "qTitle": "ChatGPT的出现会不会导致底层程序员失业？",
+  "text": "很不幸，ChatGPT的出现和完善，最直接的就是导致大量底层程序员的失业。 有趣案例可以去看俺基友的回答，ChatGPT 有哪些神奇的使用方式？，调教指南可以看这。 言归正传，我直到最近才有时间体验ChatGPT，体验之后感觉现阶段的ChatGPT已经有以下几个比普通人强的点。 一、ChatGPT的经验能力强于普通人 ChatGPT回答简易问题的能力很适合我这种不太会说套话的人，在回答一些知乎类问题、普通文档、运营方法等也不在话下，此外对于中文的理解有些突破我的想法，比如说如下案例。 1、前端国际化技术体系怎么做 2、帮我润色工作周报 3、给我一些学习 Rust 的资料 综上所述，chatgpt 已经可以胜任普通的没有技术含量的工作，尤其是那些找资料只会百度的员工。 二、ChatGPT的编程能力强于普通人 ChatGPT 除去内容能力外，对于简单的编程能力其实也不在话下，比如说如下这个很常用的提取 URL 用 JS 来实现的题目，写出来还是很不错的，其实 OpenAI 还提供 “Codex JavaScript Sandbox”这个比问答类的更好玩，可以将你一步一步的想法通过代码帮你来实现，比如说我让它画一只猫。 1、编程写 JS 的能力 2、让它写CSS 也没大问题 所以我一开始就说，ChatGPT的出现和完善，最直接的就是导致大量底层程序员的失业。 三、ChatGPT写文章的能力强于普通人 OpenAI 除简单的编程实现，还有一个写文章的能力，编剧也没问题，也很适合写所谓的论证文，不过还是感觉还是有些“正规话术”，但是在某些场合其实还是很吃香的，比如说如下这种类似于活动安排、论证主题、模版申请啥的还是不错的，居然还可以“教你做菜”，简直了。 1、如何编剧入门 2、正规申请怎么写 3、领导让你写一份活动安排 4、写一首诗吧 5、教我做菜吧 四、ChatGPT的理解能力强于普通人 除去写文章外，其实有一些很日常的问题它也能回答得不错，比如说解释代码的意思、帮你修正错误的英语语法、甚至通过看你的语句帮你生成SQL语句，这里让我觉得神奇的是，它的回答竟然带有人文性。 1、可以带有感情的聊天 2、可以解释代码 3、可以检查语法错误 4、可以写 SQL 查询 五、ChatGPT的创造力甚至也超过普通人 除了上述能力之外，还有一个DALLE2 AI 画画功能让我立马意识到，其实这东西是一个“下一代智能搜索”的雏形，相当于你想要啥，它告诉你比现在的 google 搜索更加简单、高效，可以很方便的为后面类似机器人的场景做素材语义来源，不过其实没想象的那么聪明，期待更加产品化完善化。 最后，普通人如何不被OpenAI 取代。 在某些方面强于普通人的，特别是对于重复性智力劳动，如重复性写套话、写代码、画图，那么怎么不被取代？还是需要多学习、多主动思考、多实践、看更多书，做更多有挑战的事情，在认知上避免被取代的关键是不断学习和提高自己的能力，并努力适应新的环境和挑战。 讽刺的是上面的一段话来源于ChatGPT。",
+  "url": "https://www.zhihu.com/question/570596331/answer/2861569894",
+  "voteUp": 927
+ },
+ {
+  "author": "知乎用户",
+  "authorUrl": "https://www.zhihu.com/people/",
+  "badge": "",
+  "commentCount": 83,
+  "createdAt": "2022-12-06T09:51:08.000Z",
+  "followerCount": 11267,
+  "qTitle": "ChatGPT持续发展会导致程序员大规模失业吗？",
+  "text": "chatgpt肯定不是玩具，我已经用起来了。 这几天因为工作的原因要死磕一个之前没接触过的配置文件，只有官方文档，谷歌和so东西都不多。这下chatgpt派上用场了，我的问题也很简单，就是xx option是干啥用的？这种写法表示什么意思？ 基本毫无问题。猜想是GitHub全部代码的预训练和RLHF产生了不可描述的化学反应，让一切都顺其自然了。 我描述了一下我想要的环境和package，点一下一个dockerfile就有了 这些东西，在我现在的工作流里，都是我偶尔会用一下，用的时候之前需要持续google，等两个月之后又忘的差不多，脑子里还有一些模糊的关键字，到时候只能按图索骥捡起来。 chatgpt作为一个管家型查找，把喂到你嘴里这个功能发挥到了极致。 如果以后收费，只要月费不超过20美元，我肯定买会员。 至于失业的问题，没chatgpt或者copilot也没碍着程序员们失业不是（逃。有些东西放出来就收不回去了，咱们的主观意愿是次要的，就业什么的还看市场走向",
+  "url": "https://www.zhihu.com/question/570403406/answer/2790046400",
+  "voteUp": 764
+ },
+ {
+  "author": "蛇之堕",
+  "authorUrl": "https://www.zhihu.com/people/jefftian",
+  "badge": "复旦大学 工程硕士",
+  "commentCount": 0,
+  "createdAt": "2022-12-17T12:33:42.000Z",
+  "followerCount": 4702,
+  "qTitle": "ChatGPT持续发展会导致程序员大规模失业吗？",
+  "text": "Copilot 来了，程序员会失业吗？ChatGPT 又来了，程序员会失业吗？程序员本来就焦虑，最近似乎越来越焦虑了。在 Copilot 问世时，我感觉自己退化成了工具人： 《我成了一个只会敲 Tab 键的工具人了！ - Jeff Tian的文章 - 知乎 》。如今 ChatGPT 又来了，这次我是什么感觉呢？感觉真的 Google 和 StackOverflow 已经不好用了。 不过，经过一段时间对 Copilot 的使用，我的心态已经平和了许多，不再担心失业了。回头来看，其实，它们都是效率工具，它们不是要干掉程序员，而是更好地帮助程序员。众所周知，程序员可以改变世界，那么，借助 Copilot 和 ChatGPT，程序员的自我感觉更棒了！可以更加肆无忌惮地在未知领域里自由探索了！ 探索 Vue 前几天，我开始对一个 Vue 项目做一些迭代优化，这是我第一次接触 Vue 项目。我需要对该 Vue 项目进行保护，添加登录功能，详细过程见《使用 IdentityServer 保护 Vue 前端 - Jeff Tian的文章 - 知乎 》。我在这一篇日志里提了一下，说自己参考 Vue 的官方文档，给 Vue 应用添加的方法，在 vue-router 的导航守卫里，按照 vue-router 的官方文档去拿这个方法，居然是 undefined！通过 Google 搜索了很久，都是这种官方文档类似的说明（然而并不管用！），于是我去 StackOverflow 上提了这个问题： https://stackoverflow.com/questions/74769607/how-to-access-vues-methods-from-navigation-guard，这个问题到现在，也没有其他人（除了我自己）回复。 image.png 于是我抱着试一试的心理，在 ChatGPT 上问了一下，没有想到立即得到了详细的解答： image.png 它的思路是，将方法添加在 Vue 的 prototype 中，这样，在导航守卫里就能使用 this 关键字去访问全局方法了！这真的是比 Google 好用呀！ 探索 Mybatis plus 我对 Java 也不熟，它的生态中很多组件，我听上去感觉就是拼写错误。昨天在 Mybatis plus 上就栽了跟头。事情是这样的，我和同事们业余做了一个项目（有兴趣一起来玩的同学们欢迎联系哈），目前刚开始，正在做一个 3D 世界里的角色可以选择自己的皮肤颜色的功能。 https://brickverse.vercel.app/ 或者这个 URL： https://brick.cat 前端部署在 Vercel 上，后端部署在 Okteto 上。后端服务是一个 Java 项目，我在这个项目里添加了 UserPreference 这个数据表，用来保存用户的偏好设置，详细 api 文档见： https://brickverse-user-service-gracewen1.cloud.okteto.net/doc.html#/brick/%E5%BD%93%E5%89%8D%E7%94%A8%E6%88%B7%E5%81%8F%E5%A5%BD%E7%AE%A1%E7%90%86/createOrUpdateUserPreferenceUsingPOST。 image.png 用户可以有很多设置，我的设想是每个用户可以有多个 key-value 键值对，但同一个用户，同一个 key，只能有一条记录。为了简单，就提供一个接口给到用户添加或者更新偏好。我的设想是，对于同一个 userId, key，如果没有记录就添加，有的话，就更新 value。我对 Mybatis plus 不熟，但是在写的过程中，点出了一个 saveOrUpdate 方法，就认为这正是我要的，保存或者更新嘛。我在 Flyway 脚本里将 userId 和 key 设置成唯一索引，心想，当我试着保存一个记录时，首先尝试插入，碰到已有记录的错误时，该方法就转而调用 update。 CREATE TABLE `user_preference` ( `id` bigint NOT NULL AUTO_INCREMENT, `user_id` varchar(100) NOT NULL, `key` varchar(100) NOT NULL, `value` varchar(10000) NOT NULL, `create_time` datetime DEFAULT NULL, `update_time` datetime DEFAULT NULL, PRIMARY KEY (`id`), UNIQUE KEY `user_id_key` (`user_id`,`key`) ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci public boolean saveOrUpdatePreference(String userId, UserPreferenceDto dto) { var key = dto.getKey(); var value = dto.getValue(); UserPreference userPreference = new UserPreference(); userPreference.setUserId(userId); userPreference.setKey(key); userPreference.setValue(value); return this.saveOrUpdate(userPreference); } 没想到，实际上，当想要更新这个 value 时，仍然报了唯一索引冲突错误，而没有进行更新。这时，我才知道，这个 saveOrUpdate，在不传入主键时，总是尝试插入。这时我用 Google 搜索如何让 saveOrUpdate 根据自定义查询条件去判断是否已存在呢？发现似乎只有国人在用 Mybatis Plus，找到的链接全是 csdn 对 saveOrUpdate 的泛泛简介，没有一篇文章讲解高级用法。 这时我抱着试一试的想法，去问了一下 ChatGPT，没想到它立刻马上给予了详细的说明，不仅有代码示例，还有温馨提示，主要指出我的代码问题在于调用 saveOrUpdate 时，没有去数据库里查询已有记录。 427eac0d094cdddcc4eaba3d607f0d7b.jpg dad694395461a28bbbb5d5c98e63c5a7.jpg 你看，它给的代码示例，在调用 saveOrUpdate 之前，先使用 QueryWrapper 去查询了数据库里的现有记录，然后再设置值。看到这里我秒懂了，我需要在调用 saveOrUpdate 之前，根据 userId 和 key 来查询一下数据库中的记录。这时，我想，能不能把这个查询做为参数直接扔给 saveOrUpdate 呢？我试着在 saveOrUpdate 的第一个参数后加了一个逗号，这时， Copilot 就自动帮我补全了代码，我一看，还正是我需要的条件呢！ 5867ad12a7e74e5f58bb61b64c7a4f51.jpg 我按了一下 Tab 键，提交了这个改动： image.png 在 cicd 流水线跑完后，我再试了一次，重新选择皮肤颜色，更新成功了！ image.png image.png image.png 总结 我感觉自己从此可以摆脱面向 Google 和 StackOverflow 编程的习惯了，转而面向 ChatGPT 和 Copilot 编程。ChatGPT 和 Copilot，可以让程序员在尝试新的领域时，变得更加有效率。就像朋友圈有朋友留言说的，ChatGPT 和 Copilot 可以互相结对编程，让 AI 们为我们打工！ 蛇之堕 93 次咨询 5.0 复旦大学 工程硕士 10770 次赞同 去咨询 本文由叽歪同步助手自动同步而来，原文链接是： https://jeff-tian.jiwai.win/posts/dy75p5ex2m36d5zi 。",
+  "url": "https://www.zhihu.com/question/570403406/answer/2805562037",
+  "voteUp": 6
+ },
+ {
+  "author": "一直住顶楼",
+  "authorUrl": "https://www.zhihu.com/people/yi-zhi-zhu-ding-lou",
+  "badge": "",
+  "commentCount": 18,
+  "createdAt": "2023-02-06T20:53:02.000Z",
+  "followerCount": 188843,
+  "qTitle": "ChatGPT持续发展会导致程序员大规模失业吗？",
+  "text": "应该不会。 你知道一个程序员工作里“写”代码时间有多少吗？在我还去办公室的时候，不到5%。 我宁可自己花5%时间写代码，也不要浪费时间教AI需求然后我再去review它的代码。 历史上所有代码生成工具的一个基本要求是生成的代码是可预测的，而AI生成代码最大的问题恰恰在于不可预测性。 你们如果认为AI写代码这种模糊的不确定性是可行的，不如拿AI直接做编译器更简单，干嘛还浪费一步写成代码？直接从需求编译到成品不就行了。 当然，如果针对性的AI开发辅助编程工具，可以大大提高开发效率，那确实有可能让初级程序员岗位消失，也就是原来需要100个程序员的地方，现在需要50个。那这个和云计算的出现导致大量公司内部IT维护岗位消失一个道理。",
+  "url": "https://www.zhihu.com/question/570403406/answer/2880328512",
+  "voteUp": 167
+ }
+]

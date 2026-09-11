@@ -1,0 +1,323 @@
+/**
+ * 争鸣 · 应用入口
+ *
+ * 一条主链路贯穿三个视图：
+ *   首页输入争议 → 战局（拆成立场阵营）→ 对练（入座、被裁判）→ 体检报告（带走）
+ */
+
+import {
+  loadSettings, saveSettings, resetSettings, detectBackend, modeLabel, settings, runtime,
+} from './config.js';
+import { fetchAnswers, loadTopic, clearCache, ZhihuError } from './providers.js';
+import { clusterStances, buildReport } from './pipeline.js';
+import { llmAvailable } from './llm.js';
+import { h, mount, loading, notice } from './dom.js';
+import { renderHome } from './views/home.js';
+import { renderArena } from './views/arena.js';
+import { createDebateView } from './views/debate.js';
+import { renderReport } from './views/report.js';
+
+const app = { analysis: null, report: null, topicId: null };
+let debateView = null;
+
+const views = {
+  home: document.getElementById('viewHome'),
+  arena: document.getElementById('viewArena'),
+  debate: document.getElementById('viewDebate'),
+  report: document.getElementById('viewReport'),
+};
+
+/* ------------------------------------------------------------------ 启动 */
+
+(async function boot() {
+  loadSettings();
+  syncSettingsForm();
+  renderHomeView();
+  bindUi();
+  route();
+  window.addEventListener('hashchange', route);
+
+  await detectBackend();
+  refreshModePill();
+})();
+
+/* --------------------------------------------------------------- 视图切换 */
+
+function show(name) {
+  for (const [k, el] of Object.entries(views)) el.classList.toggle('hidden', k !== name);
+  window.scrollTo(0, 0);
+}
+
+function route() {
+  const hash = location.hash.replace(/^#\/?/, '');
+  if (hash.startsWith('arena') && app.analysis) return show('arena');
+  if (hash.startsWith('debate') && app.analysis && debateView) return show('debate');
+  if (hash.startsWith('report') && app.report) return show('report');
+  if (!hash || hash === '/') renderHomeView();
+  show('home');
+}
+
+function go(hash) {
+  if (location.hash === hash) route();
+  else location.hash = hash;
+}
+
+function refreshModePill() {
+  const m = modeLabel();
+  const pill = document.getElementById('modePill');
+  document.getElementById('modeText').textContent = m.text;
+  pill.classList.toggle('live', m.data === 'live');
+  pill.classList.toggle('offline', m.data === 'demo' && m.llm === 'offline');
+  pill.title = m.data === 'live'
+    ? '正在使用知乎开放平台实时数据'
+    : '正在使用内置的真实知乎问答快照。要接实时数据，点右上角「设置」。';
+
+  document.getElementById('footerMode').textContent =
+    `当前运行姿态：${m.text}`
+    + (m.backendReady ? ' · 后端已连接' : ' · 未连接后端')
+    + (m.llm === 'offline' ? '（未配置模型时使用可解释的本地裁判规则引擎）' : '');
+}
+
+/* --------------------------------------------------------------- 首页 */
+
+function renderHomeView() {
+  renderHome(views.home, {
+    onPick: (id) => openSnapshot(id),
+    onAnalyze: (q) => analyze(q),
+    onFreeform: () => {
+      setDataMode('live');
+      openSettings();
+    },
+  });
+}
+
+/* ------------------------------------------------------- 主链路：拆解争议 */
+
+async function analyze(rawQuery) {
+  const query = String(rawQuery || '').trim();
+  if (!query) return;
+
+  show('arena');
+  document.getElementById('arenaTitle').textContent = query;
+  mount(document.getElementById('arenaMeta'));
+  mount(document.getElementById('arenaDivergence'));
+  document.getElementById('arenaKeyline').innerHTML = '';
+
+  const grid = document.getElementById('stanceGrid');
+  const steps = [
+    stepRow('检索该话题下的回答与权威等级'),
+    stepRow('按权威度 × 赞同数加权，识别立场阵营'),
+    stepRow('生成每一方的最强论证并挂回原文出处'),
+  ];
+  mount(grid, loading('正在检索…'), h('div', { class: 'steps' }, steps.map((s) => s.el)));
+
+  try {
+    steps[0].set('active');
+    const { answers, origin, snapshot, fallbackReason } = await fetchAnswers(query, { limit: 10 });
+    steps[0].set('done');
+
+    if (answers.length < 4) {
+      throw new Error(`这个话题只检索到 ${answers.length} 条回答，样本太少无法拆分阵营。换个说法，或从样本库里挑一个。`);
+    }
+
+    steps[1].set('active');
+    const analysis = await clusterStances({
+      query: snapshot?.title || query,
+      answers,
+      precomputed: snapshot?.analysis,
+    });
+    steps[1].set('done');
+    steps[2].set('done');
+
+    if (analysis.stances.length < 2) {
+      throw new Error('这个话题的立场没有被拆成两个以上阵营。可能争议度不足，换一个话题试试。');
+    }
+
+    analysis.origin = origin;
+    analysis.fallbackReason = fallbackReason;
+    app.analysis = analysis;
+    app.topicId = snapshot?.id || null;
+
+    await new Promise((r) => setTimeout(r, 240));
+    renderArena(views.arena, {
+      analysis,
+      onEnterDebate: (sid) => enterDebate(sid, false),
+      onEnterAsOpponent: (sid) => enterDebate(sid, true),
+    });
+    go('#/arena');
+  } catch (err) {
+    const msg = err instanceof ZhihuError
+      ? `${err.message}<br />可以切回离线快照，或从样本库里挑一个话题。`
+      : err.code === 'NOT_IN_LIBRARY'
+        ? `样本库里没有「${query}」这个话题。<br />两个办法：① 从样本库里挑一个；② 在右上角「设置」里填入知乎开放平台 Access Secret，就能拆解任意话题。`
+        : err.message;
+    mount(grid, notice(msg, 'err'));
+  }
+}
+
+function stepRow(text) {
+  const tick = h('span', { class: 'tick' });
+  const el = h('div', { class: 'step' }, tick, h('span', { text }));
+  return {
+    el,
+    set(state) {
+      el.classList.remove('active', 'done');
+      if (state) el.classList.add(state);
+      tick.textContent = state === 'done' ? '✓' : '';
+    },
+  };
+}
+
+async function openSnapshot(id) {
+  show('arena');
+  document.getElementById('arenaTitle').textContent = '载入中…';
+  mount(document.getElementById('arenaMeta'));
+  mount(document.getElementById('arenaDivergence'));
+  document.getElementById('arenaKeyline').innerHTML = '';
+  mount(document.getElementById('stanceGrid'), loading('正在载入快照…'));
+
+  try {
+    const topic = await loadTopic(id);
+    const analysis = await clusterStances({
+      query: topic.title,
+      answers: topic.answers,
+      precomputed: topic.analysis,
+    });
+    analysis.origin = 'snapshot';
+    app.analysis = analysis;
+    app.topicId = id;
+
+    renderArena(views.arena, {
+      analysis,
+      onEnterDebate: (sid) => enterDebate(sid, false),
+      onEnterAsOpponent: (sid) => enterDebate(sid, true),
+    });
+    go('#/arena');
+  } catch (err) {
+    mount(document.getElementById('stanceGrid'), notice(`快照载入失败：${err.message}`, 'err'));
+  }
+}
+
+/* ------------------------------------------------------------- 进入对练 */
+
+function enterDebate(stanceId, asOpponent) {
+  if (!app.analysis) return;
+  show('debate');
+
+  debateView = createDebateView(views.debate, {
+    analysis: app.analysis,
+    onExit: () => go('#/arena'),
+    onFinish: async ({ myStance, opponentStance, history }) => {
+      show('report');
+      mount(document.getElementById('authorList'), loading('正在生成报告…'));
+      const report = await buildReport({
+        query: app.analysis.query,
+        myStance,
+        stances: app.analysis.stances,
+        history,
+      });
+      report.myStance = myStance;
+      report.opponentStance = opponentStance;
+      app.report = report;
+
+      renderReport(views.report, {
+        report,
+        analysis: app.analysis,
+        onRestart: () => {
+          app.report = null;
+          if (app.analysis) enterDebate(myStance.id, false);
+          else go('#/');
+        },
+      });
+      go('#/report');
+    },
+  });
+
+  if (asOpponent) debateView.beginAs(stanceId);
+  else debateView.begin(stanceId);
+}
+
+/* ------------------------------------------------------------------ 设置 */
+
+function openSettings() {
+  document.getElementById('settingsMask').classList.remove('hidden');
+  syncSettingsForm();
+}
+function closeSettings() {
+  document.getElementById('settingsMask').classList.add('hidden');
+}
+
+function syncSettingsForm() {
+  const set = (id, v) => { const el = document.getElementById(id); if (el) el.value = v || ''; };
+  set('inputSecret', settings.secret);
+  set('inputBaseUrl', settings.baseUrl);
+  set('inputApiKey', settings.apiKey);
+  set('inputModel', settings.model);
+  set('inputBackend', settings.backendUrl);
+
+  document.querySelectorAll('#segData button').forEach((b) => b.classList.toggle('on', b.dataset.v === settings.dataMode));
+  document.querySelectorAll('#segLlm button').forEach((b) => b.classList.toggle('on', b.dataset.v === settings.llmMode));
+  document.getElementById('byokFields').classList.toggle('hidden', settings.llmMode !== 'byok');
+
+  const usingBackendZhihu = !!(runtime.backend && runtime.backend.zhihu);
+  document.getElementById('fieldSecret').classList.toggle('hidden', settings.dataMode !== 'live' || usingBackendZhihu);
+}
+
+function setDataMode(mode) {
+  saveSettings({ dataMode: mode });
+  syncSettingsForm();
+  refreshModePill();
+}
+
+function bindUi() {
+  document.getElementById('btnSettings').addEventListener('click', openSettings);
+  document.getElementById('btnCloseSettings').addEventListener('click', closeSettings);
+  document.getElementById('settingsMask').addEventListener('click', (e) => {
+    if (e.target.id === 'settingsMask') closeSettings();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeSettings();
+  });
+
+  document.querySelectorAll('#segData button').forEach((b) => {
+    b.addEventListener('click', () => { saveSettings({ dataMode: b.dataset.v }); syncSettingsForm(); refreshModePill(); });
+  });
+  document.querySelectorAll('#segLlm button').forEach((b) => {
+    b.addEventListener('click', () => { saveSettings({ llmMode: b.dataset.v }); syncSettingsForm(); });
+  });
+
+  document.getElementById('btnSaveSettings').addEventListener('click', async (e) => {
+    const btn = e.currentTarget;
+    btn.disabled = true;
+    btn.textContent = '保存中…';
+    saveSettings({
+      secret: document.getElementById('inputSecret').value.trim(),
+      baseUrl: document.getElementById('inputBaseUrl').value.trim(),
+      apiKey: document.getElementById('inputApiKey').value.trim(),
+      model: document.getElementById('inputModel').value.trim(),
+      backendUrl: document.getElementById('inputBackend').value.trim(),
+    });
+    clearCache();
+    await detectBackend();
+    if (llmAvailable() && settings.llmMode === 'offline') {
+      // 用户没显式选过模型来源，但现在有可用模型了，自动升级一次
+      saveSettings({ llmMode: 'backend' });
+    }
+    refreshModePill();
+    syncSettingsForm();
+    closeSettings();
+    renderHomeView();
+    if (location.hash && location.hash !== '#/') go('#/');
+    btn.disabled = false;
+    btn.textContent = '保存并重新检测';
+  });
+
+  document.getElementById('btnResetSettings').addEventListener('click', async () => {
+    resetSettings();
+    clearCache();
+    await detectBackend();
+    syncSettingsForm();
+    refreshModePill();
+    renderHomeView();
+  });
+}

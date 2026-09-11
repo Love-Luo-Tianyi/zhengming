@@ -1,0 +1,143 @@
+{
+ "builtAt": "2026-09-11",
+ "topics": [
+  {
+   "id": "ai-programmer",
+   "title": "AI 会取代程序员吗",
+   "query": "AI 会取代程序员吗",
+   "category": "职业与未来",
+   "keywords": [
+    "AI",
+    "程序员",
+    "失业",
+    "就业",
+    "替代",
+    "ChatGPT",
+    "编程"
+   ],
+   "controversy": 0.65,
+   "answerCount": 10,
+   "stanceNames": [
+    "需求扩张派",
+    "工具赋能派",
+    "底层淘汰派",
+    "判断力核心派"
+   ],
+   "capturedAt": "2026-09-11"
+  },
+  {
+   "id": "kaoyan",
+   "title": "考研到底值不值",
+   "query": "现在这个社会真的有必要考研吗",
+   "category": "升学与选择",
+   "keywords": [
+    "考研",
+    "读研",
+    "学历",
+    "就业",
+    "二战",
+    "研究生"
+   ],
+   "controversy": 0.65,
+   "answerCount": 7,
+   "stanceNames": [
+    "学历跃迁派",
+    "热爱驱动派",
+    "反盲从劝退派",
+    "因人而异派"
+   ],
+   "capturedAt": "2026-09-11"
+  },
+  {
+   "id": "tangping",
+   "title": "年轻人该不该躺平",
+   "query": "如何看待年轻人躺平这一现象",
+   "category": "社会现象",
+   "keywords": [
+    "躺平",
+    "内卷",
+    "努力",
+    "奋斗",
+    "年轻人",
+    "佛系"
+   ],
+   "controversy": 0.72,
+   "answerCount": 9,
+   "stanceNames": [
+    "低薪算账派",
+    "抵抗剥削派",
+    "低欲望自洽派",
+    "蛰伏蓄力派"
+   ],
+   "capturedAt": "2026-09-11"
+  },
+  {
+   "id": "tiankeng",
+   "title": "生化环材真的是「天坑」吗",
+   "query": "如何看待国内把生化环材专业称为四大天坑",
+   "category": "专业选择",
+   "keywords": [
+    "生化环材",
+    "天坑",
+    "四大天坑",
+    "专业",
+    "劝退",
+    "化学",
+    "材料",
+    "生物"
+   ],
+   "controversy": 0.62,
+   "answerCount": 3,
+   "stanceNames": [
+    "天坑实锤派",
+    "供需错配派",
+    "门槛非坑派"
+   ],
+   "capturedAt": "2026-09-11"
+  },
+  {
+   "id": "dagong",
+   "title": "进大厂还是考公",
+   "query": "考公进体制和进互联网大厂应该选哪个",
+   "category": "职业与未来",
+   "keywords": [
+    "考公",
+    "大厂",
+    "公务员",
+    "体制",
+    "编制",
+    "互联网"
+   ],
+   "controversy": 0.68,
+   "answerCount": 6,
+   "stanceNames": [
+    "体制优先派",
+    "财力门槛派",
+    "内心偏好派"
+   ],
+   "capturedAt": "2026-09-11"
+  },
+  {
+   "id": "tianfu",
+   "title": "天赋和努力哪个更重要",
+   "query": "天赋和努力哪个更重要",
+   "category": "成长与自我",
+   "keywords": [
+    "天赋",
+    "努力",
+    "成长",
+    "上限",
+    "普通人",
+    "智商"
+   ],
+   "controversy": 0.68,
+   "answerCount": 7,
+   "stanceNames": [
+    "天赋至上派",
+    "努力翻盘派",
+    "分阶段条件派"
+   ],
+   "capturedAt": "2026-09-11"
+  }
+ ]
+}
