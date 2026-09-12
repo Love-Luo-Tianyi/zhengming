@@ -5,8 +5,8 @@
  * 所以报告的重心是四维画像 + 你可能低估的那一方，而不是分数本身。
  */
 
-import { h, mount, clear, votes, authorityBadge, sourceLink, download, copyText, polar } from '../dom.js?v=20260912i';
-import { JUDGE_DIMS, posterLine } from '../pipeline.js?v=20260912i';
+import { h, mount, clear, votes, authorityBadge, sourceLink, download, copyText, polar } from '../dom.js?v=20260912j';
+import { JUDGE_DIMS, posterLine } from '../pipeline.js?v=20260912j';
 
 export function renderReport(container, { report, analysis, topicId, onRestart }) {
   const { myStance, opponentStance } = report;
@@ -89,6 +89,11 @@ export function renderReport(container, { report, analysis, topicId, onRestart }
 
   const shareBtn = container.querySelector('#btnShareReview');
   if (shareBtn) shareBtn.onclick = async (e) => {
+    if (!topicId) {
+      e.target.textContent = '实时话题暂不可复核';
+      setTimeout(() => { e.target.textContent = '邀请朋友复核 ↗'; }, 1800);
+      return;
+    }
     // Share a reproducible snapshot link, not ephemeral debate text or PII.
     const base = `${location.origin}${location.pathname}`;
     const url = `${base}#/arena/${encodeURIComponent(topicId || '')}`;
@@ -97,7 +102,8 @@ export function renderReport(container, { report, analysis, topicId, onRestart }
     try {
       if (navigator.share) { await navigator.share({ title: '争鸣 · 问题分歧地图', text, url }); ok = true; }
       else if (navigator.clipboard) { await navigator.clipboard.writeText(text); ok = true; }
-    } catch {
+    } catch (err) {
+      if (err?.name === 'AbortError') return;
       const copied = await copyText(`${text}`);
       ok = copied;
     }
