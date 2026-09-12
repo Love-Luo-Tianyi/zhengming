@@ -8,7 +8,7 @@
  *   所以这里只保留 JSON 一条通道，降低解析失败面。
  */
 
-import { settings, backendBase, effectiveMode, runtime } from './config.js?v=20260912b';
+import { settings, backendBase, effectiveMode, runtime } from './config.js?v=20260912c';
 
 /** 同源后端的 base 是空串，所以不能靠 base 是否非空来判断后端可用性 */
 function backendUsable() {

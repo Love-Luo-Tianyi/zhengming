@@ -3,7 +3,7 @@
  * 页面结构本身就是产品主张——分歧不是要被总结掉的噪声，而是要被并排看见的主语。
  */
 
-import { h, mount, authorityBadge, sourceLink, votes, clear } from '../dom.js?v=20260912b';
+import { h, mount, authorityBadge, sourceLink, votes, clear } from '../dom.js?v=20260912c';
 
 export function renderArena(container, { analysis, onEnterDebate, onEnterAsOpponent }) {
   const { query, stances, controversy, keyline, answers } = analysis;
@@ -77,12 +77,12 @@ function stanceCard(s, analysis, onEnterDebate, onEnterAsOpponent) {
       ? h('div', { class: 'stance-mini', style: { marginTop: '13px' } }, s.keywords.map((k) => h('span', { text: k })))
       : null,
     h('div', { class: 'stance-foot' },
-      h('button', { class: 'btn btn-sm btn-primary', onclick: () => onEnterDebate(s.id) }, '入座这一方'),
+      h('button', { class: 'btn btn-sm btn-primary', onclick: () => onEnterDebate(s.id) }, '选择该观点'),
       h('button', {
         class: 'btn btn-sm',
         title: '反过来：你来扮演这一方，让 AI 站到你的对立面',
         onclick: () => onEnterAsOpponent(s.id),
-      }, '替这一方辩'),
+      }, '从此观点开始'),
       toggle),
     drawer,
   );

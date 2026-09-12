@@ -10,7 +10,7 @@
 <meta property="og:description" content="看见分歧结构，写出自己的回应，并回到知乎原回答核对。" />
 <meta property="og:type" content="website" />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230b0e17'/%3E%3Cpath d='M16 5l7 11-7 11-7-11z' fill='none' stroke='%232f8bff' stroke-width='2'/%3E%3Cpath d='M16 5l7 11-7 3z' fill='%23ffa63d'/%3E%3C/svg%3E" />
-<link rel="stylesheet" href="./css/styles.css?v=20260912b" />
+<link rel="stylesheet" href="./css/styles.css?v=20260912c" />
 </head>
 <body>
 
@@ -21,14 +21,14 @@
       <span class="brand-sub">问题分歧地图 · 回答体检</span>
     </a>
     <nav class="topnav" aria-label="主导航">
-      <a class="topnav-link active" href="#/">首页</a>
-      <a class="topnav-link" href="#/" data-nav="discover">发现</a>
+      <a class="topnav-link active" href="#/" data-nav="home" aria-current="page">首页</a>
+      <a class="topnav-link" href="#/discover" data-nav="discover">发现</a>
       <a class="topnav-link" href="https://www.zhihu.com/ring/host/2029619126742656657" target="_blank" rel="noopener noreferrer">圈子 ↗</a>
     </nav>
     <div class="top-search" role="search">
       <span class="top-search-icon" aria-hidden="true">⌕</span>
-      <input id="topSearchInput" placeholder="搜索问题、回答或作者" autocomplete="off" />
-      <button id="topSearchBtn" type="button">搜索</button>
+      <input id="topSearchInput" aria-label="搜索问题、回答或作者" placeholder="搜索问题、回答或作者" autocomplete="off" />
+      <button id="topSearchBtn" type="button" aria-label="提交搜索">搜索</button>
     </div>
     <div class="top-actions" aria-label="快捷操作">
       <button class="top-action" type="button" title="当前为离线演示">通知</button>
@@ -63,7 +63,7 @@
       <div class="search-row">
         <div class="search-box">
           <span class="muted tiny">争议话题</span>
-          <input id="topicInput" placeholder="例如：AI 会取代程序员吗 / 考研到底值不值" autocomplete="off" />
+          <input id="topicInput" aria-label="输入争议话题" placeholder="例如：AI 会取代程序员吗 / 考研到底值不值" autocomplete="off" />
         </div>
         <button class="btn btn-primary" id="btnAnalyze">查看分歧地图</button>
       </div>
@@ -133,7 +133,7 @@
 
       <aside class="side-panel">
         <div class="card">
-          <div class="panel-title">本回合进程</div>
+          <div class="panel-title">回应进度</div>
           <div class="rounds" id="rounds"></div>
         </div>
         <div class="card">
@@ -200,13 +200,13 @@
 
 <!-- 设置弹层 -->
 <div class="modal-mask hidden" id="settingsMask">
-  <div class="modal">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
     <div class="modal-head">
       <div>
-        <h3>运行设置</h3>
+        <h3 id="settingsTitle">运行设置</h3>
         <div class="tiny muted" style="margin-top:6px">配置只保存在你自己的浏览器 localStorage，不会上传到任何服务器。</div>
       </div>
-      <button class="btn btn-sm btn-ghost" id="btnCloseSettings">关闭</button>
+      <button class="btn btn-sm btn-ghost" id="btnCloseSettings" aria-label="关闭运行设置">关闭</button>
     </div>
 
     <div class="field">
@@ -262,6 +262,6 @@
   </div>
 </div>
 
-<script type="module" src="./js/app.js?v=20260912b"></script>
+<script type="module" src="./js/app.js?v=20260912c"></script>
 </body>
 </html>

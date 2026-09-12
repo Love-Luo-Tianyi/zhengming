@@ -7,15 +7,15 @@
 
 import {
   loadSettings, saveSettings, resetSettings, detectBackend, modeLabel, settings, runtime,
-} from './config.js?v=20260912b';
-import { fetchAnswers, loadTopic, clearCache, ZhihuError } from './providers.js?v=20260912b';
-import { clusterStances, buildReport } from './pipeline.js?v=20260912b';
-import { llmAvailable } from './llm.js?v=20260912b';
-import { h, mount, loading, notice } from './dom.js?v=20260912b';
-import { renderHome } from './views/home.js?v=20260912b';
-import { renderArena } from './views/arena.js?v=20260912b';
-import { createDebateView } from './views/debate.js?v=20260912b';
-import { renderReport } from './views/report.js?v=20260912b';
+} from './config.js?v=20260912c';
+import { fetchAnswers, loadTopic, clearCache, ZhihuError } from './providers.js?v=20260912c';
+import { clusterStances, buildReport } from './pipeline.js?v=20260912c';
+import { llmAvailable } from './llm.js?v=20260912c';
+import { h, mount, loading, notice } from './dom.js?v=20260912c';
+import { renderHome } from './views/home.js?v=20260912c';
+import { renderArena } from './views/arena.js?v=20260912c';
+import { createDebateView } from './views/debate.js?v=20260912c';
+import { renderReport } from './views/report.js?v=20260912c';
 
 const app = { analysis: null, report: null, topicId: null };
 let debateView = null;
@@ -47,7 +47,18 @@ const views = {
 
 function show(name) {
   for (const [k, el] of Object.entries(views)) el.classList.toggle('hidden', k !== name);
+  setNavActive(name === 'home' ? 'home' : '');
   window.scrollTo(0, 0);
+}
+
+/** Keep the desktop navigation honest as the hash-router moves between views. */
+function setNavActive(key) {
+  document.querySelectorAll('.topnav-link[data-nav]').forEach((link) => {
+    const active = link.dataset.nav === key;
+    link.classList.toggle('active', active);
+    if (active) link.setAttribute('aria-current', 'page');
+    else link.removeAttribute('aria-current');
+  });
 }
 
 async function route() {
@@ -55,6 +66,7 @@ async function route() {
   routeBusy = true;
   try {
     const hash = location.hash.replace(/^#\/?/, '');
+    const wantsDiscover = hash === 'discover';
     const wantsArena = hash === 'arena' || hash.startsWith('arena/');
     const wantsDebate = hash === 'debate' || hash.startsWith('debate/');
     const wantsReport = hash === 'report' || hash.startsWith('report/');
@@ -97,6 +109,13 @@ async function route() {
     }
 
     if (!hash || hash === '/') { renderHomeView(); show('home'); return; }
+    if (wantsDiscover) {
+      renderHomeView();
+      show('home');
+      setNavActive('discover');
+      requestAnimationFrame(() => document.getElementById('topicGrid')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+      return;
+    }
     // Unknown or stale hashes should never leave a blank page.
     renderHomeView();
     show('home');
@@ -349,6 +368,7 @@ function bindUi() {
   document.querySelector('[data-nav="discover"]')?.addEventListener('click', (e) => {
     e.preventDefault();
     if (location.hash !== '#/') go('#/');
+    setNavActive('discover');
     requestAnimationFrame(() => document.getElementById('topicGrid')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
   });
   document.getElementById('topInviteBtn')?.addEventListener('click', async (e) => {
