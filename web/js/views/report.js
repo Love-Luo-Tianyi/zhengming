@@ -1,7 +1,7 @@
 /**
- * 观点体检报告：把一场辩论变成可带走的东西。
+ * 观点体检报告：把一次回应变成可带走、可复核、可分享的立场卡。
  *
- * 产品判断：陪练的价值不在"你赢了"，而在"你现在知道对面最强的一击长什么样"。
+ * 产品判断：体检的价值不在"你赢了"，而在"你知道哪条成立条件与证据还没补齐"。
  * 所以报告的重心是四维画像 + 你可能低估的那一方，而不是分数本身。
  */
 
@@ -14,7 +14,7 @@ export function renderReport(container, { report, analysis, onRestart }) {
   container.querySelector('#reportTitle').textContent = '观点体检报告';
   container.querySelector('#reportSub').innerHTML =
     `话题「${escapeHtml(analysis.query)}」· 你站在 <b style="color:${myStance.color}">${escapeHtml(myStance.name)}</b> 一侧，` +
-    `与 <b style="color:${opponentStance.color}">${escapeHtml(opponentStance.name)}</b> 交锋 ${report.turns} 回合`;
+    `，回应 <b style="color:${opponentStance.color}">${escapeHtml(opponentStance.name)}</b> 的观点 ${report.turns} 次`;
 
   drawRadar(container.querySelector('#radar'), report);
   container.querySelector('#radarNote').textContent =
@@ -32,6 +32,11 @@ export function renderReport(container, { report, analysis, onRestart }) {
     report.insights.map((i) => h('div', { class: 'insight' },
       h('h4', { text: i.title }),
       h('div', { text: i.body }))));
+
+  const shareNote = h('div', { class: 'notice', style: { marginTop: '12px' } },
+    h('b', { text: '下一步连接：' }),
+    '把这张立场卡发给一位观点不同的朋友，请他从同一张分歧地图重新写一份回应。');
+  container.querySelector('#reportInsights').append(shareNote);
 
   const authors = container.querySelector('#authorList');
   if (report.authors.length) {
@@ -65,8 +70,8 @@ export function renderReport(container, { report, analysis, onRestart }) {
 
   container.querySelector('#btnCopySummary').onclick = async (e) => {
     const text = [
-      `我在「争鸣」和 AI 辩了一场：${analysis.query}`,
-      `我站「${myStance.name}」，对手是「${opponentStance.name}」。`,
+      `我在「争鸣」完成了一次观点体检：${analysis.query}`,
+      `我选择「${myStance.name}」，回应「${opponentStance.name}」。`,
       posterLine(report, myStance),
       report.summary,
     ].join('\n');
