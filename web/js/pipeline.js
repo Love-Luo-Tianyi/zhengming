@@ -3,7 +3,7 @@
  *
  * 三条能力，全部围绕一个判断：知乎最值钱的是「分歧」，不是「共识」。
  *   1. clusterStances —— 把同一话题下的回答还原成互斥的立场阵营
- *   2. debateTurn    —— 扮演对立阵营回击，并对用户发言做四维裁判
+ *   2. debateTurn    —— 基于不同观点论据回应，并对用户草稿做四维体检
  *   3. buildReport   —— 汇总成观点体检报告
  *
  * 每一层都有「模型版」和「本地规则版」两条实现，模型不可用时不会白屏。
@@ -283,7 +283,7 @@ function normalizeTurn(raw) {
   const scores = {};
   for (const d of JUDGE_DIMS) scores[d.key] = clamp05(s[d.key]);
   return {
-    reply: String(raw.reply || '').trim() || '（对手这一轮没有接话，继续你的论述。）',
+    reply: String(raw.reply || '').trim() || '（暂时没有新的回应提示，请继续补充你的论据。）',
     probe: String(raw.probe || '').trim(),
     comment: String(raw.comment || '').trim(),
     scores,
@@ -313,9 +313,9 @@ function debatePrompt({ query, myStance, opponentStance, history, message }) {
 - 你的弹药只有下面这些真实论据，不要编造事实、数据或引用：
 ${oppArgs}
 
-对练规则：
-- reply：用对手阵营的口吻回应，2–4 句，先承认对方站得住的地方（如果有），再指出其代价或被忽略的前提。不要礼貌性收尾，不要复述对方原话。
-- 禁止和稀泥。你的任务是把这一方的最强版本打出来，而不是讲平衡。
+回应检查规则：
+- reply：以回应对象的观点为参照，给出 2–4 句具体反馈，指出用户草稿尚未覆盖的代价或前提。不要礼貌性收尾，不要复述用户原话。
+- 不要泛泛讲平衡，优先指出成立条件与证据缺口。
 - probe：给用户一个必须正面回答的追问，一句话。
 - 裁判部分对**用户的发言**打分，四个维度各 0–5 分：
   - grounding 依据：是否落到具体事实、来源、数字，而非空泛表态
@@ -385,7 +385,7 @@ function localTurn({ opponentStance, history, message }) {
   );
   const pick = (unused.length ? unused : opponentStance.arguments)[0]
     || { text: opponentStance.thesis };
-  const reply = `你说的这一面我不否认，但它回避了代价由谁承担的问题。${pick.text}——这一条你打算怎么回应？`;
+  const reply = `回应对象的关键提醒是：${pick.text}。请检查你的草稿是否正面覆盖了这一点。`;
 
   const weakest = JUDGE_DIMS.map((d) => ({ d, v: scores[d.key] })).sort((a, b) => a.v - b.v)[0];
   const comment = `本轮最该补的是「${weakest.d.label}」：${
@@ -468,7 +468,7 @@ export async function buildReport({ query, myStance, stances, history }) {
     turns: myTurns.length,
     citations: myTurns.reduce((s, t) => s + ((t.content.match(/第\s*\d+|《[^》]{2,30}》|\d+(\.\d+)?\s*(%|％|万|年|倍)/g) || []).length), 0),
     strongest, weakest, underestimated, authors, insights,
-    summary: summary || `你站在「${myStance.name}」一侧完成了 ${myTurns.length} 回合交锋，四维合计 ${total.toFixed(1)} / ${maxTotal}。真正有价值的不是赢，而是你现在知道对面最强的那一击长什么样了。`,
+    summary: summary || `你选择「${myStance.name}」并完成了 ${myTurns.length} 次回应，四维合计 ${total.toFixed(1)} / ${maxTotal}。真正有价值的不是赢，而是你知道哪条成立条件与证据还需要补齐。`,
   };
 }
 
@@ -494,5 +494,5 @@ async function reportSummary({ query, myStance, dims, total, maxTotal, underesti
 
 /** 生成分享海报里的一句话结论 */
 export function posterLine(report, myStance) {
-  return `我在「${myStance.name}」这一侧辩了 ${report.turns} 回合，依据 ${report.dims[0].value.toFixed(1)}、切题 ${report.dims[1].value.toFixed(1)}、逻辑 ${report.dims[2].value.toFixed(1)}、增量 ${report.dims[3].value.toFixed(1)}。`;
+  return `我在「${myStance.name}」这一侧完成 ${report.turns} 次回应，依据 ${report.dims[0].value.toFixed(1)}、切题 ${report.dims[1].value.toFixed(1)}、逻辑 ${report.dims[2].value.toFixed(1)}、增量 ${report.dims[3].value.toFixed(1)}。`;
 }
