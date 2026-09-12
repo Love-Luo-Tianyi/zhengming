@@ -1,5 +1,5 @@
 /**
- * 对练：你坐进一方，AI 扮演对立阵营。
+ * 回应体检：你选择一个观点坐标，针对不同论据提交草稿并获得四维反馈。
  * 每一次发言都被裁判按四维打分——这是「观点陪练」和「吵架」的区别。
  */
 
@@ -62,7 +62,7 @@ export function createDebateView(container, { analysis, onFinish, onExit }) {
     container.querySelector('#debateTitle').textContent = analysis.query;
     mount(container.querySelector('#debateMeta'),
       h('span', { class: 'mode-pill live' }, h('span', { class: 'mode-dot' }), h('span', { text: `你 · ${me.name}` })),
-      h('span', { class: 'mode-pill' }, h('span', { text: '对手 · ' }, h('b', { text: opp.name }))),
+      h('span', { class: 'mode-pill' }, h('span', { text: '待回应 · ' }, h('b', { text: opp.name }))),
       h('span', { class: 'mode-pill' }, h('span', {
         text: llmAvailable() ? '模型裁判 · 四维打分' : '本地裁判 · 规则引擎（可在设置里换成模型）',
       })));
@@ -72,7 +72,7 @@ export function createDebateView(container, { analysis, onFinish, onExit }) {
     renderRounds();
     updateHint();
 
-    // 对手先手：用该阵营真实论据开局，保证一进来就有东西可反驳
+    // 先展示待回应观点：只使用快照中已溯源的论据
     clear(stream);
     const opener = opp.arguments[0]?.text || opp.thesis;
     state.history.push({
@@ -140,7 +140,7 @@ export function createDebateView(container, { analysis, onFinish, onExit }) {
     },
       h('div', { class: 'turn-head' },
         h('span', { class: 'avatar opp', text: opp.name.slice(0, 1) }),
-        h('span', { text: `对手 · ${opp.name}` })),
+        h('span', { text: `待回应 · ${opp.name}` })),
       body);
     stream.append(turn);
     if (instant) body.textContent = text;
@@ -176,7 +176,7 @@ export function createDebateView(container, { analysis, onFinish, onExit }) {
   }
 
   function pushThinking() {
-    const el = loading('对手正在组织反击…');
+    const el = loading('正在整理下一条待回应论据…');
     el.id = 'thinking';
     stream.append(el);
     scrollDown();

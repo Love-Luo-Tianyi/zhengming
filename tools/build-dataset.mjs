@@ -373,6 +373,7 @@ async function main() {
 
     const normalized = answers.map((a) => ({
       id: a.id,
+      answerId: String((a.url || '').match(/\/answer\/(\d+)/)?.[1] || ''),
       title: (a.qTitle || '').slice(0, 80),
       author: a.author,
       // 匿名用户在知乎没有主页，采集到的是裸 /people/ 空页，统一清空，避免出现点不开的死链
@@ -383,7 +384,13 @@ async function main() {
       commentCount: a.commentCount,
       createdAt: a.createdAt,
       url: a.url,
-      excerpt: String(a.text).slice(0, 2000),
+      excerpt: (() => {
+        const text = String(a.text).trim();
+        if (text.length <= 620) return text;
+        const cut = text.slice(0, 620);
+        const pos = Math.max(...['。', '！', '？', '!', '?', '；', ';'].map((x) => cut.lastIndexOf(x)));
+        return text.slice(0, pos >= 360 ? pos + 1 : 620).trimEnd() + '……（摘要截取，详见知乎原文）';
+      })(),
       comments: [],
     }));
 
@@ -436,7 +443,8 @@ async function main() {
       capturedAt: new Date().toISOString().slice(0, 10),
       engine,
       provenance: {
-        note: '本快照的回答标题、正文摘要、作者、赞同数、评论数与原文链接，均采集自知乎公开问答页面；立场聚类为构建期计算结果。',
+        note: '离线演示快照：回答标题、短摘录、作者、赞同数、评论数、回答 ID 与原文链接来自知乎公开问答页面；本作品非知乎官方产品，不调用实时知乎 API；立场聚类为构建期结果。请以原文为准。',
+        offlineSnapshot: true,
         sourcePages: [...new Set(answers.map((a) => a.qTitle))],
       },
       answers: normalized,

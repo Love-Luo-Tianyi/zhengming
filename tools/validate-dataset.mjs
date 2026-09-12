@@ -54,8 +54,11 @@ for (const meta of index.topics) {
     check(!ids.has(a.id), `${tag}: 回答 id 重复 ${a.id}`);
     ids.add(a.id);
     check(!!a.author, `${tag}#${a.id}: 缺少作者`);
+    check(!!a.answerId && /^\d+$/.test(String(a.answerId)), `${tag}#${a.id}: 缺少可溯源的知乎回答 ID`);
     check(!!a.excerpt && a.excerpt.length >= 80, `${tag}#${a.id}: 摘要过短，撑不起立场`);
+    check(a.excerpt.length <= 680, `${tag}#${a.id}: 摘要过长，应保留短摘录而非转载原回答`);
     check(!!a.url && /^https:\/\/(www\.)?zhihu\.com\//.test(a.url), `${tag}#${a.id}: 原文链接不是知乎链接（${a.url}）`);
+    check(a.url?.includes(`/answer/${a.answerId}`), `${tag}#${a.id}: 回答 ID 与原文链接不一致`);
     // 匿名用户在知乎没有可访问的主页；但只要有作者主页链接，就不能是空页
     check(!/^https:\/\/(www\.)?zhihu\.com\/people\/?$/.test(a.authorUrl || ''), `${tag}#${a.id}: 作者主页链接为空页`);
     const anonymous = /匿名|知乎用户/.test(a.author);

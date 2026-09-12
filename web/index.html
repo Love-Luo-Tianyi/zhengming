@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>争鸣 · 让知乎上的分歧站到你面前</title>
-<meta name="description" content="争鸣把同一个问题下立场对立的知乎回答还原成清晰阵营，让你入座其中一方，与 AI 扮演的对立阵营真刀真枪辩一场，并拿到自己的观点体检报告。" />
+<title>争鸣 · 问题分歧地图与回答体检</title>
+<meta name="description" content="争鸣把离线知乎问答快照整理为问题分歧地图。选择观点坐标、写下回应草稿，获得依据、切题、逻辑、增量四维体检，并回到原回答溯源。" />
 <meta name="theme-color" content="#070910" />
-<meta property="og:title" content="争鸣 · 让知乎上的分歧站到你面前" />
-<meta property="og:description" content="不是又一个把分歧总结掉的 AI，而是把分歧还给你。" />
+<meta property="og:title" content="争鸣 · 问题分歧地图与回答体检" />
+<meta property="og:description" content="看见分歧结构，写出自己的回应，并回到知乎原回答核对。" />
 <meta property="og:type" content="website" />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230b0e17'/%3E%3Cpath d='M16 5l7 11-7 11-7-11z' fill='none' stroke='%232f8bff' stroke-width='2'/%3E%3Cpath d='M16 5l7 11-7 3z' fill='%23ffa63d'/%3E%3C/svg%3E" />
 <link rel="stylesheet" href="./css/styles.css" />
@@ -18,7 +18,7 @@
   <div class="topbar-inner">
     <a class="brand" href="#/">
       <span class="brand-mark">争鸣</span>
-      <span class="brand-sub">让分歧站到你面前</span>
+      <span class="brand-sub">问题分歧地图 · 回答体检</span>
     </a>
     <div class="topbar-spacer"></div>
     <span class="mode-pill" id="modePill" title="当前数据与模型来源">
@@ -35,14 +35,13 @@
     <div class="hero">
       <div class="hero-kicker">知乎黑客松 2026 · 灵魂匹配局</div>
       <h1 class="hero-title">
-        每个 AI 都在替你把分歧<span class="hl-a">总结掉</span>，<br />
-        我们把它<span class="hl-b">还给你</span>。
+        先看清问题的<span class="hl-a">分歧地图</span>，<br />
+        再体检你的<span class="hl-b">回应</span>。
       </h1>
       <p class="hero-lede">
-        知乎最值钱的不是共识，是<strong>同一个问题下高权威答主给出的相反结论</strong>。
-        争鸣把这些回答还原成清晰的立场阵营，让你入座其中一方，
-        与 AI 扮演的对立阵营真刀真枪辩一场——每句话都被裁判按<strong>依据、切题、逻辑、增量</strong>四个维度打分。
-        辩完拿到你的<strong>观点体检报告</strong>：你在哪些议题上，只看到了一面。
+        将同一问题下<strong>可溯源的不同回答</strong>整理为共识、分歧与成立条件。
+        选择一个观点坐标，写下回应草稿；系统以已展示的论据为参照，按<strong>依据、切题、逻辑、增量</strong>四维给出可解释的回答体检，
+        并提示你回到原回答核对。它不是 AI 辩论游戏，也不模拟真实答主。
       </p>
 
       <div class="search-row">
@@ -56,7 +55,7 @@
     </div>
 
     <div class="section-head">
-      <h2>争议样本库</h2>
+      <h2>离线问题快照</h2>
       <span class="hint" id="libraryHint"></span>
     </div>
     <div class="topic-grid" id="topicGrid"></div>
@@ -74,10 +73,10 @@
     <div class="stance-grid" id="stanceGrid"></div>
   </section>
 
-  <!-- ===== 对练 ===== -->
+  <!-- ===== 回应草稿与体检 ===== -->
   <section class="view hidden" id="viewDebate">
     <div class="view-head">
-      <a class="back-link" href="#/arena" id="debateBack">← 回到战局</a>
+      <a class="back-link" href="#/arena" id="debateBack">← 回到分歧地图</a>
       <h1 class="arena-title" id="debateTitle"></h1>
       <div class="arena-meta" id="debateMeta"></div>
     </div>
@@ -89,10 +88,10 @@
           <div class="composer-box">
             <textarea id="composerInput" placeholder="写下你的论点。引用了具体来源、正面回应对方核心主张的发言，得分更高。"></textarea>
             <div class="composer-foot">
-              <span class="composer-hint" id="composerHint">第 1 / 5 回合</span>
-              <button class="btn btn-sm" id="btnSwapSide">换边</button>
-              <button class="btn btn-sm" id="btnEndDebate">结束并出报告</button>
-              <button class="btn btn-primary btn-sm" id="btnSend">发言</button>
+              <span class="composer-hint" id="composerHint">第 1 / 5 次修改</span>
+              <button class="btn btn-sm" id="btnSwapSide">换个坐标</button>
+              <button class="btn btn-sm" id="btnEndDebate">查看体检报告</button>
+              <button class="btn btn-primary btn-sm" id="btnSend">提交草稿</button>
             </div>
           </div>
         </div>
@@ -104,11 +103,11 @@
           <div class="rounds" id="rounds"></div>
         </div>
         <div class="card">
-          <div class="panel-title">对手阵营</div>
+          <div class="panel-title">需要回应的不同观点</div>
           <div id="opponentPanel"></div>
         </div>
         <div class="card">
-          <div class="panel-title">你的弹药（可引用来源）</div>
+          <div class="panel-title">可引用的本方来源</div>
           <div id="ammoPanel" class="tiny muted"></div>
         </div>
       </aside>
@@ -142,18 +141,18 @@
     <div style="display:flex;gap:10px;justify-content:center;margin-top:16px;flex-wrap:wrap">
       <button class="btn btn-primary" id="btnDownloadPoster">下载海报 PNG</button>
       <button class="btn" id="btnCopySummary">复制结论文本</button>
-      <button class="btn" id="btnRestart">再辩一场</button>
+      <button class="btn" id="btnRestart">再写一份回应</button>
     </div>
   </section>
 
   <footer class="footer">
     <div>
-      <b>争鸣</b> · 知乎黑客松 2026「校园新锐季」参赛作品 · 赛道：灵魂匹配局（社区 × 社交）
+      <b>争鸣</b> · 知乎黑客松参赛作品 · 赛道：灵魂匹配局（社区连接与兴趣社交）
     </div>
     <div id="footerMode"></div>
     <div>
-      数据来源：知乎开放平台（热榜 / 知乎搜索 / 直答 / 关注流 / 收藏夹）。
-      作品中的回答摘要与作者信息用于观点呈现与溯源，版权归原作者所有，每条证据均保留原文链接。
+      默认数据：离线知乎公开问答快照（采集日期见每个话题数据）；默认体检：本地可解释规则。
+      本作品非知乎官方产品，与知乎无官方隶属关系；不代表实时知乎 API 或真实答主。回答短摘录、作者与原文链接仅用于观点呈现和溯源，版权归原作者所有。
     </div>
     <div style="margin-top:10px;display:flex;gap:16px;flex-wrap:wrap">
       <a href="https://github.com/Love-Luo-Tianyi/zhengming" target="_blank" rel="noopener noreferrer">代码仓库 ↗</a>
@@ -179,15 +178,15 @@
       <label>数据来源</label>
       <div class="seg" id="segData">
         <button data-v="demo">离线快照（默认）</button>
-        <button data-v="live">知乎开放平台实时</button>
+        <button data-v="live">可选实时接入</button>
       </div>
-      <div class="help">实时模式需要知乎开放平台 Access Secret。开放平台接口已开启 CORS，浏览器可直接调用；密钥仅存本地。</div>
+      <div class="help">默认不会请求实时接口。只有自行配置凭据且接口权限、跨域与可用性经官方核验后，才会尝试可选实时接入；密钥仅存本地。</div>
     </div>
 
     <div class="field" id="fieldSecret">
       <label>知乎开放平台 Access Secret</label>
       <input class="input" id="inputSecret" type="password" placeholder="从 developer.zhihu.com/profile 获取" />
-      <div class="help">用于热榜、知乎搜索、直答等接口。单接口有调用频次上限，争鸣会在本地缓存检索结果。</div>
+      <div class="help">仅在可选实时接入中使用。接口范围、调用限额、凭据权限与合规要求均以知乎官方当期规则为准。</div>
     </div>
 
     <div class="field">

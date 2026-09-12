@@ -117,6 +117,7 @@ function buildDrawer(drawer, stance, analysis) {
         : null,
       h('div', { class: 'evidence-top', style: { marginTop: '10px' } },
         h('span', { text: a.author }),
+        h('span', { class: 'tiny muted', text: `回答 ID ${a.answerId || '未知'}` }),
         authorityBadge(a.authorityLevel),
         h('span', { text: `赞同 ${votes(a.voteUp)}` }),
         h('span', { text: `评论 ${votes(a.commentCount)}` }),

@@ -306,7 +306,7 @@ function debatePrompt({ query, myStance, opponentStance, history, message }) {
   return [
     {
       role: 'system',
-      content: `你是「争鸣」的辩论对手与裁判。用户选定了立场，你扮演与之对立的阵营，用该阵营真实的知乎论据回应他。
+      content: `你是「争鸣」的回应体检引擎。用户选定一个观点坐标，你基于已展示的对立阵营知乎快照论据，帮助检查回应草稿；不要模拟或冒充真实答主。
 
 扮演规则：
 - 你是「${opponentStance.name}」：${opponentStance.thesis}

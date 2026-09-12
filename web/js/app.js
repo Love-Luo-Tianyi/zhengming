@@ -19,6 +19,8 @@ import { renderReport } from './views/report.js';
 
 const app = { analysis: null, report: null, topicId: null };
 let debateView = null;
+const SESSION_KEY = 'zhengming.session.v1';
+let routeBusy = false;
 
 const views = {
   home: document.getElementById('viewHome'),
@@ -34,7 +36,7 @@ const views = {
   syncSettingsForm();
   renderHomeView();
   bindUi();
-  route();
+  await route();
   window.addEventListener('hashchange', route);
 
   await detectBackend();
@@ -48,13 +50,52 @@ function show(name) {
   window.scrollTo(0, 0);
 }
 
-function route() {
-  const hash = location.hash.replace(/^#\/?/, '');
-  if (hash.startsWith('arena') && app.analysis) return show('arena');
-  if (hash.startsWith('debate') && app.analysis && debateView) return show('debate');
-  if (hash.startsWith('report') && app.report) return show('report');
-  if (!hash || hash === '/') renderHomeView();
-  show('home');
+async function route() {
+  if (routeBusy) return;
+  routeBusy = true;
+  try {
+    const hash = location.hash.replace(/^#\/?/, '');
+    const wantsArena = hash === 'arena' || hash.startsWith('arena/');
+    const wantsDebate = hash === 'debate' || hash.startsWith('debate/');
+    const wantsReport = hash === 'report' || hash.startsWith('report/');
+
+    // A GitHub Pages reload has no in-memory state. Restore the last offline
+    // snapshot when possible; live analyses intentionally fall back home.
+    if ((wantsArena || wantsDebate || wantsReport) && !app.analysis) {
+      const saved = readSession();
+      if (saved?.topicId) {
+        await openSnapshot(saved.topicId, { navigate: false });
+      }
+    }
+
+    if (wantsArena && app.analysis) return show('arena');
+    if (wantsDebate && app.analysis && debateView) return show('debate');
+    if (wantsReport && app.report) return show('report');
+
+    if (wantsDebate || wantsReport) {
+      // A debate/report transcript is ephemeral and cannot be reconstructed
+      // safely after reload; keep the user on the restored arena instead.
+      if (app.analysis) {
+        show('arena');
+        document.getElementById('arenaMeta').append(notice(
+          '对练记录只保存在当前页面，刷新后无法恢复。已回到该话题的分歧地图，请重新入座。', ''));
+        if (location.hash !== '#/arena') history.replaceState(null, '', '#/arena');
+      } else {
+        renderHomeView();
+        show('home');
+        if (location.hash) history.replaceState(null, '', '#/');
+      }
+      return;
+    }
+
+    if (!hash || hash === '/') { renderHomeView(); show('home'); return; }
+    // Unknown or stale hashes should never leave a blank page.
+    renderHomeView();
+    show('home');
+    if (location.hash) history.replaceState(null, '', '#/');
+  } finally {
+    routeBusy = false;
+  }
 }
 
 function go(hash) {
@@ -69,13 +110,24 @@ function refreshModePill() {
   pill.classList.toggle('live', m.data === 'live');
   pill.classList.toggle('offline', m.data === 'demo' && m.llm === 'offline');
   pill.title = m.data === 'live'
-    ? '正在使用知乎开放平台实时数据'
-    : '正在使用内置的真实知乎问答快照。要接实时数据，点右上角「设置」。';
+    ? '当前请求会使用知乎开放平台实时数据（需自行配置凭据）'
+    : '当前使用内置的知乎公开问答离线快照；不会请求实时知乎 API。要切换实时模式，请点右上角「设置」。';
 
   document.getElementById('footerMode').textContent =
     `当前运行姿态：${m.text}`
     + (m.backendReady ? ' · 后端已连接' : ' · 未连接后端')
     + (m.llm === 'offline' ? '（未配置模型时使用可解释的本地裁判规则引擎）' : '');
+}
+
+function readSession() {
+  try { return JSON.parse(localStorage.getItem(SESSION_KEY) || 'null'); } catch { return null; }
+}
+
+function saveSession() {
+  try {
+    if (app.topicId) localStorage.setItem(SESSION_KEY, JSON.stringify({ topicId: app.topicId, at: Date.now() }));
+    else localStorage.removeItem(SESSION_KEY);
+  } catch { /* 隐私模式或配额不足时不阻断主流程 */ }
 }
 
 /* --------------------------------------------------------------- 首页 */
@@ -137,6 +189,7 @@ async function analyze(rawQuery) {
     analysis.fallbackReason = fallbackReason;
     app.analysis = analysis;
     app.topicId = snapshot?.id || null;
+    saveSession();
 
     await new Promise((r) => setTimeout(r, 240));
     renderArena(views.arena, {
@@ -168,7 +221,7 @@ function stepRow(text) {
   };
 }
 
-async function openSnapshot(id) {
+async function openSnapshot(id, { navigate = true } = {}) {
   show('arena');
   document.getElementById('arenaTitle').textContent = '载入中…';
   mount(document.getElementById('arenaMeta'));
@@ -186,13 +239,15 @@ async function openSnapshot(id) {
     analysis.origin = 'snapshot';
     app.analysis = analysis;
     app.topicId = id;
+    app.report = null;
+    saveSession();
 
     renderArena(views.arena, {
       analysis,
       onEnterDebate: (sid) => enterDebate(sid, false),
       onEnterAsOpponent: (sid) => enterDebate(sid, true),
     });
-    go('#/arena');
+    if (navigate) go('#/arena');
   } catch (err) {
     mount(document.getElementById('stanceGrid'), notice(`快照载入失败：${err.message}`, 'err'));
   }
@@ -235,6 +290,7 @@ function enterDebate(stanceId, asOpponent) {
 
   if (asOpponent) debateView.beginAs(stanceId);
   else debateView.begin(stanceId);
+  go('#/debate');
 }
 
 /* ------------------------------------------------------------------ 设置 */
