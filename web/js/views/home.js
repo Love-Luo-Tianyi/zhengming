@@ -42,8 +42,8 @@ export function renderHome(container, { onPick, onAnalyze, onFreeform }) {
     h('button', {
       class: 'chip',
       onclick: onFreeform,
-      title: '库里没有你想要的话题时，用自己的知乎密钥检索站内真实回答',
-    }, '+ 用实时知乎数据查别的'));
+      title: '库里没有你想要的话题时，可在设置中自行开启实时接入',
+    }, '+ 查找其他问题（可选实时）'));
 
   mount(grid, loading('正在载入争议样本库…'));
   if (libraryHint) libraryHint.textContent = '';
@@ -58,7 +58,7 @@ export function renderHome(container, { onPick, onAnalyze, onFreeform }) {
       mount(grid, index.topics.map((t) => card(t, onPick)));
     } catch (err) {
       mount(grid, notice(
-        `样本库载入失败：${err.message}<br />你仍然可以直接在上方输入话题，或点「用实时知乎数据查别的」。`,
+        `样本库载入失败：${err.message}<br />你仍然可以直接在上方输入话题，或在设置中开启可选实时接入。`,
         'err'));
       if (libraryHint) libraryHint.textContent = '';
     }

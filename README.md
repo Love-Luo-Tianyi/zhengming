@@ -63,6 +63,8 @@ ZM_RATE_LIMIT=120      # 单 IP 每分钟请求上限，保护日额度
 
 ## 工程结构
 
+官方赛事与 AI Works Skill 的核对记录见 [`docs/官方要求与Skill核验.md`](docs/官方要求与Skill核验.md)；该文档区分 GitHub Pages 演示与待官方复核的 AI Works 交付路径。
+
 ```
 web/                     纯静态前端，无构建步骤，可直接托管
   js/config.js           运行模式探测与三级降级判定
