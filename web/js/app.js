@@ -86,7 +86,8 @@ async function route() {
         show('arena');
         document.getElementById('arenaMeta').append(notice(
           '对练记录只保存在当前页面，刷新后无法恢复。已回到该话题的分歧地图，请重新入座。', ''));
-        if (location.hash !== '#/arena') history.replaceState(null, '', '#/arena');
+        const arenaHash = app.topicId ? `#/arena/${encodeURIComponent(app.topicId)}` : '#/arena';
+        if (location.hash !== arenaHash) history.replaceState(null, '', arenaHash);
       } else {
         renderHomeView();
         show('home');
@@ -345,6 +346,12 @@ function bindUi() {
   };
   topSearchBtn?.addEventListener('click', runTopSearch);
   topSearchInput?.addEventListener('keydown', (e) => { if (e.key === 'Enter') runTopSearch(); });
+  document.getElementById('topInviteBtn')?.addEventListener('click', async (e) => {
+    const url = `${location.origin}${location.pathname}#/`;
+    try { await navigator.clipboard?.writeText(`来看看争鸣的问题分歧地图：${url}`); e.currentTarget.textContent = '已复制'; }
+    catch { e.currentTarget.textContent = '请从报告页分享'; }
+    setTimeout(() => { e.currentTarget.textContent = '邀请'; }, 1800);
+  });
 
   document.getElementById('btnSettings').addEventListener('click', openSettings);
   document.getElementById('btnCloseSettings').addEventListener('click', closeSettings);
