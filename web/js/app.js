@@ -334,6 +334,18 @@ function setDataMode(mode) {
 }
 
 function bindUi() {
+  const topSearchInput = document.getElementById('topSearchInput');
+  const topSearchBtn = document.getElementById('topSearchBtn');
+  const runTopSearch = () => {
+    const q = topSearchInput?.value.trim();
+    if (!q) { topSearchInput?.focus(); return; }
+    const topicInput = document.getElementById('topicInput');
+    if (topicInput) topicInput.value = q;
+    analyze(q);
+  };
+  topSearchBtn?.addEventListener('click', runTopSearch);
+  topSearchInput?.addEventListener('keydown', (e) => { if (e.key === 'Enter') runTopSearch(); });
+
   document.getElementById('btnSettings').addEventListener('click', openSettings);
   document.getElementById('btnCloseSettings').addEventListener('click', closeSettings);
   document.getElementById('settingsMask').addEventListener('click', (e) => {
