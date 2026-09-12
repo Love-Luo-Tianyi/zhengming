@@ -3,9 +3,9 @@
  * 每一次发言都被裁判按四维打分——这是「观点陪练」和「吵架」的区别。
  */
 
-import { h, mount, loading, clear, typewriter, authorityBadge, sourceLink } from '../dom.js';
-import { debateTurn, JUDGE_DIMS, STANCE_COLORS } from '../pipeline.js';
-import { llmAvailable } from '../llm.js';
+import { h, mount, loading, clear, typewriter, authorityBadge, sourceLink } from '../dom.js?v=20260912';
+import { debateTurn, JUDGE_DIMS, STANCE_COLORS } from '../pipeline.js?v=20260912';
+import { llmAvailable } from '../llm.js?v=20260912';
 
 const MAX_ROUNDS = 5;
 
