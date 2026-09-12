@@ -20,6 +20,20 @@
       <span class="brand-mark">争鸣</span>
       <span class="brand-sub">问题分歧地图 · 回答体检</span>
     </a>
+    <nav class="topnav" aria-label="主导航">
+      <a class="topnav-link active" href="#/">首页</a>
+      <a class="topnav-link" href="#/">发现</a>
+      <a class="topnav-link" href="#/">圈子</a>
+    </nav>
+    <div class="top-search" role="search">
+      <span class="top-search-icon" aria-hidden="true">⌕</span>
+      <input id="topSearchInput" placeholder="搜索问题、回答或作者" autocomplete="off" />
+      <button id="topSearchBtn" type="button">搜索</button>
+    </div>
+    <div class="top-actions" aria-label="快捷操作">
+      <button class="top-action" type="button" title="当前为离线演示">通知</button>
+      <button class="top-action" type="button" title="社区复核入口">私信</button>
+    </div>
     <div class="topbar-spacer"></div>
     <span class="mode-pill" id="modePill" title="当前数据与模型来源">
       <span class="mode-dot"></span><span id="modeText">正在检测运行模式…</span>
@@ -32,6 +46,8 @@
 
   <!-- ===== 首页 ===== -->
   <section class="view" id="viewHome">
+    <div class="home-layout">
+      <div class="home-main">
     <div class="hero">
       <div class="hero-kicker">知乎黑客松 2026 · 灵魂匹配局</div>
       <h1 class="hero-title">
@@ -59,6 +75,24 @@
       <span class="hint" id="libraryHint"></span>
     </div>
     <div class="topic-grid" id="topicGrid"></div>
+      </div>
+      <aside class="home-aside" aria-label="争鸣侧栏">
+        <div class="side-card side-profile">
+          <div class="side-card-title">争鸣工作台</div>
+          <div class="side-profile-row"><span class="side-avatar">争</span><div><b>问题分歧地图</b><small>从回答出发，回到社区</small></div></div>
+          <div class="side-stat-grid"><div><b>6</b><small>离线问题</small></div><div><b>42</b><small>可溯源回答</small></div><div><b>4</b><small>体检维度</small></div></div>
+        </div>
+        <div class="side-card">
+          <div class="side-card-title">使用路径</div>
+          <ol class="side-steps"><li><span>1</span>看见问题的分歧</li><li><span>2</span>核对回答与成立条件</li><li><span>3</span>写回应并做回答体检</li><li><span>4</span>邀请不同观点复核</li></ol>
+        </div>
+        <div class="side-card side-notice">
+          <div class="side-card-title">知乎黑客松</div>
+          <p>本页默认使用离线知乎公开问答快照，不代表实时 API 或真实答主。每条证据均保留原文入口。</p>
+          <a href="https://www.zhihu.com/ring/host/2029619126742656657" target="_blank" rel="noopener noreferrer">进入赛事圈子 ↗</a>
+        </div>
+      </aside>
+    </div>
   </section>
 
   <!-- ===== 战局 ===== -->
