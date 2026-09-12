@@ -77,8 +77,9 @@ export async function detectBackend() {
   runtime.backend = null;
 
   const candidates = [];
-  // 静态托管平台上同源探测会 404，成本很低，所以总是先试一次
-  candidates.push({ base: '', sameOrigin: true });
+  // GitHub Pages/static hosting has no /api/health endpoint; probing it creates
+  // a noisy 404 in the browser console. Probe an explicitly configured backend
+  // only. A same-origin deployment can still be used by filling its URL.
   if (settings.backendUrl) candidates.push({ base: normalizeBase(settings.backendUrl), sameOrigin: false });
 
   for (const c of candidates) {
