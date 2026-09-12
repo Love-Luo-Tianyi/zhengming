@@ -11,7 +11,9 @@ export function renderArena(container, { analysis, onEnterDebate, onEnterAsOppon
   container.querySelector('#arenaTitle').textContent = query;
 
   const live = analysis.origin === 'live';
-  const engineLabel = analysis.engine === 'llm' ? '模型分析' : '本地规则分析';
+  const engineLabel = live
+    ? (analysis.engine === 'llm' ? '模型分析' : '本地规则分析')
+    : '构建期分歧分析';
   mount(container.querySelector('#arenaMeta'),
     h('span', { class: `mode-pill ${live ? 'live' : ''}` },
       h('span', { class: 'mode-dot' }),

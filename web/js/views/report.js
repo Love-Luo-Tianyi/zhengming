@@ -97,7 +97,10 @@ export function renderReport(container, { report, analysis, topicId, onRestart }
     try {
       if (navigator.share) { await navigator.share({ title: '争鸣 · 问题分歧地图', text, url }); ok = true; }
       else if (navigator.clipboard) { await navigator.clipboard.writeText(text); ok = true; }
-    } catch { /* 用户取消分享 */ }
+    } catch {
+      const copied = await copyText(`${text}`);
+      ok = copied;
+    }
     e.target.textContent = ok ? '已复制分享链接 ✓' : '分享失败';
     setTimeout(() => { e.target.textContent = '邀请朋友复核 ↗'; }, 1800);
   };
