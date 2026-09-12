@@ -346,6 +346,11 @@ function bindUi() {
   };
   topSearchBtn?.addEventListener('click', runTopSearch);
   topSearchInput?.addEventListener('keydown', (e) => { if (e.key === 'Enter') runTopSearch(); });
+  document.querySelector('[data-nav="discover"]')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (location.hash !== '#/') go('#/');
+    requestAnimationFrame(() => document.getElementById('topicGrid')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+  });
   document.getElementById('topInviteBtn')?.addEventListener('click', async (e) => {
     const url = `${location.origin}${location.pathname}#/`;
     try { await navigator.clipboard?.writeText(`来看看争鸣的问题分歧地图：${url}`); e.currentTarget.textContent = '已复制'; }

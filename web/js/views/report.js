@@ -24,7 +24,7 @@ export function renderReport(container, { report, analysis, topicId, onRestart }
     stat('回合数', report.turns, ''),
     stat('四维总分', report.total.toFixed(1), `/ ${report.maxTotal}`),
     stat('引用来源', report.citations, '处'),
-    stat('对手阵营加权支持', `${Math.round(opponentStance.support * 100)}%`, ''));
+    stat('回应对象的加权支持', `${Math.round(opponentStance.support * 100)}%`, ''));
 
   mount(container.querySelector('#reportInsights'),
     h('div', { class: 'insight', style: { borderLeftColor: 'var(--side-a)', background: 'rgba(47,139,255,0.07)', marginBottom: '12px' } },
