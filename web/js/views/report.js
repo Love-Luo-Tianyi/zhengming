@@ -8,13 +8,13 @@
 import { h, mount, clear, votes, authorityBadge, sourceLink, download, copyText, polar } from '../dom.js';
 import { JUDGE_DIMS, posterLine } from '../pipeline.js';
 
-export function renderReport(container, { report, analysis, onRestart }) {
+export function renderReport(container, { report, analysis, topicId, onRestart }) {
   const { myStance, opponentStance } = report;
 
   container.querySelector('#reportTitle').textContent = '观点体检报告';
   container.querySelector('#reportSub').innerHTML =
     `话题「${escapeHtml(analysis.query)}」· 你站在 <b style="color:${myStance.color}">${escapeHtml(myStance.name)}</b> 一侧，` +
-    `，回应 <b style="color:${opponentStance.color}">${escapeHtml(opponentStance.name)}</b> 的观点 ${report.turns} 次`;
+    `回应 <b style="color:${opponentStance.color}">${escapeHtml(opponentStance.name)}</b> 的观点 ${report.turns} 次`;
 
   drawRadar(container.querySelector('#radar'), report);
   container.querySelector('#radarNote').textContent =
@@ -32,6 +32,13 @@ export function renderReport(container, { report, analysis, onRestart }) {
     report.insights.map((i) => h('div', { class: 'insight' },
       h('h4', { text: i.title }),
       h('div', { text: i.body }))));
+
+  // Make the community connection explicit without pretending we provide
+  // private messaging or real-time author contact.
+  const insightHost = container.querySelector('#reportInsights');
+  insightHost.append(h('div', { class: 'notice', style: { marginTop: '12px' } },
+    h('b', { text: '把分歧带回社区：' }),
+    h('span', { text: '邀请一位持不同观点的朋友打开同一张分歧地图，或沿原文链接继续阅读。争鸣不代替知乎私信，也不模拟真实答主。' })));
 
   const shareNote = h('div', { class: 'notice', style: { marginTop: '12px' } },
     h('b', { text: '下一步连接：' }),
@@ -78,6 +85,21 @@ export function renderReport(container, { report, analysis, onRestart }) {
     const ok = await copyText(text);
     e.target.textContent = ok ? '已复制 ✓' : '复制失败';
     setTimeout(() => { e.target.textContent = '复制结论文本'; }, 1800);
+  };
+
+  const shareBtn = container.querySelector('#btnShareReview');
+  if (shareBtn) shareBtn.onclick = async (e) => {
+    // Share a reproducible snapshot link, not ephemeral debate text or PII.
+    const base = `${location.origin}${location.pathname}`;
+    const url = `${base}#/arena/${encodeURIComponent(topicId || '')}`;
+    const text = `来看看我在「争鸣」体检的观点：${analysis.query}\n打开分歧地图，选一个不同立场一起复核：${url}`;
+    let ok = false;
+    try {
+      if (navigator.share) { await navigator.share({ title: '争鸣 · 问题分歧地图', text, url }); ok = true; }
+      else if (navigator.clipboard) { await navigator.clipboard.writeText(text); ok = true; }
+    } catch { /* 用户取消分享 */ }
+    e.target.textContent = ok ? '已复制分享链接 ✓' : '分享失败';
+    setTimeout(() => { e.target.textContent = '邀请朋友复核 ↗'; }, 1800);
   };
 
   container.querySelector('#btnRestart').onclick = onRestart;
