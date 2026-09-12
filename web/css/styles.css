@@ -80,3 +80,8 @@
   --radius-s: 3px; --radius-m: 4px; --radius-l: 8px;
   --ok: #18a080; --warn: #d89000; --danger: #c74848;
 }
+/* header fit polish */
+.topbar-inner > .brand,.topbar-inner > .topnav,.topbar-inner > .top-actions,.topbar-inner > .mode-pill,.topbar-inner > #btnSettings { flex-shrink:0; }
+.topbar-inner > #btnSettings,.top-action { white-space:nowrap; min-width:30px; }
+.top-search { flex-shrink:1; min-width:150px; }
+@media (max-width:1100px) and (min-width:641px) { .brand-sub { display:none; } .top-search { width:210px; } .mode-pill { max-width:190px; overflow:hidden; text-overflow:ellipsis; } }
