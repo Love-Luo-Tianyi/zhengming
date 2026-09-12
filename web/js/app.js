@@ -367,9 +367,8 @@ function bindUi() {
   topSearchInput?.addEventListener('keydown', (e) => { if (e.key === 'Enter') runTopSearch(); });
   document.querySelector('[data-nav="discover"]')?.addEventListener('click', (e) => {
     e.preventDefault();
-    if (location.hash !== '#/') go('#/');
-    setNavActive('discover');
-    requestAnimationFrame(() => document.getElementById('topicGrid')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+    if (location.hash === '#/discover') route();
+    else go('#/discover');
   });
   document.getElementById('topInviteBtn')?.addEventListener('click', async (e) => {
     const url = `${location.origin}${location.pathname}#/`;
