@@ -1,6 +1,6 @@
 /**
  * 回应体检：你选择一个观点坐标，针对不同论据提交草稿并获得四维反馈。
- * 每一次发言都被裁判按四维打分——这是「观点陪练」和「吵架」的区别。
+ * 每一次回应都被按四维体检——这是「观点复核」和单纯表达态度的区别。
  */
 
 import { h, mount, loading, clear, typewriter, authorityBadge, sourceLink } from '../dom.js?v=20260912c';
@@ -77,7 +77,7 @@ export function createDebateView(container, { analysis, onFinish, onExit }) {
     const opener = opp.arguments[0]?.text || opp.thesis;
     state.history.push({
       role: 'opp',
-      content: `开场我不绕弯。${opp.thesis}\n${opener}——这一条你打算怎么回应？`,
+      content: `先看这条不同观点：${opp.thesis}\n${opener}——你准备如何回应？`,
     });
     pushOppBubble(state.history[state.history.length - 1].content, true);
     input.focus();
@@ -112,7 +112,7 @@ export function createDebateView(container, { analysis, onFinish, onExit }) {
       const cls = i < done ? 'round-dot done' : 'round-dot';
       return h('div', { class: 'round-row' },
         h('span', { class: cls, text: String(i + 1) }),
-        h('span', { text: i < done ? roundSummary(i) : i === done ? '当前回合' : '未开始' }));
+        h('span', { text: i < done ? roundSummary(i) : i === done ? '当前提交' : '未开始' }));
     }));
   }
 
@@ -126,9 +126,9 @@ export function createDebateView(container, { analysis, onFinish, onExit }) {
   function updateHint() {
     const done = state.history.filter((t) => t.role === 'me').length;
     hint.textContent = done >= MAX_ROUNDS
-      ? '已满 5 回合，可以结束并生成报告了'
-      : `第 ${done + 1} / ${MAX_ROUNDS} 回合 · ⌘/Ctrl + Enter 发送`;
-    btnSend.textContent = done >= MAX_ROUNDS ? '继续发言' : '发言';
+      ? '已完成 5 次提交，可以查看体检报告了'
+      : `第 ${done + 1} / ${MAX_ROUNDS} 次提交 · ⌘/Ctrl + Enter 提交`;
+    btnSend.textContent = done >= MAX_ROUNDS ? '继续提交' : '提交回应';
   }
 
   function pushOppBubble(text, instant = false) {
@@ -231,7 +231,7 @@ export function createDebateView(container, { analysis, onFinish, onExit }) {
   function finish() {
     const myTurns = state.history.filter((t) => t.role === 'me');
     if (!myTurns.length) {
-      stream.append(h('div', { class: 'notice', html: '<b>还没有发言。</b>至少说一句，裁判才有东西可评。' }));
+      stream.append(h('div', { class: 'notice', html: '<b>还没有提交回应。</b>至少写下一条回应，系统才有内容可体检。' }));
       return;
     }
     state.finished = true;

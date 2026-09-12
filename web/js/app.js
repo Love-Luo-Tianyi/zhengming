@@ -14,7 +14,7 @@ import { llmAvailable } from './llm.js?v=20260912c';
 import { h, mount, loading, notice, copyText } from './dom.js?v=20260912c';
 import { renderHome } from './views/home.js?v=20260912c';
 import { renderArena } from './views/arena.js?v=20260912c';
-import { createDebateView } from './views/debate.js?v=20260912c';
+import { createDebateView } from './views/debate.js?v=20260912e';
 import { renderReport } from './views/report.js?v=20260912c';
 
 const app = { analysis: null, report: null, topicId: null };
