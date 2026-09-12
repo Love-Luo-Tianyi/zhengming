@@ -33,3 +33,50 @@
 .top-search{height:34px;width:230px;display:flex;align-items:center;gap:5px;padding:0 5px 0 10px;background:#f6f7f8;border:1px solid #e4e7eb;border-radius:3px}.top-search:focus-within{background:#fff;border-color:#8bb9ed}.top-search-icon{color:#9aa2af;font-size:18px}.top-search input{min-width:0;flex:1;border:0;outline:0;background:transparent;font-size:13px}.top-search button{border:0;background:transparent;color:#6f7a89;font-size:12px}.top-actions{display:flex;gap:3px}.top-action{border:0;background:transparent;color:#8590a0;font-size:12px;padding:5px}
 .home-layout{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:16px;align-items:start}.home-main{min-width:0}.home-aside{display:flex;flex-direction:column;gap:12px;position:sticky;top:68px;margin-top:22px}.side-card{padding:15px;background:#fff;border:1px solid var(--line);border-radius:3px;box-shadow:var(--shadow)}.side-card-title{margin-bottom:12px;color:#606b7b;font-size:13px;font-weight:600}.side-profile-row{display:flex;align-items:center;gap:10px}.side-profile-row b{display:block;font-size:14px}.side-profile-row small{display:block;margin-top:3px;color:#9aa2af;font-size:11px}.side-avatar{width:34px;height:34px;display:grid;place-items:center;color:#fff;background:var(--zh-blue);border-radius:3px;font-weight:700}.side-stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-top:15px;padding-top:12px;border-top:1px solid var(--line);text-align:center}.side-stat-grid b{display:block;font-size:17px}.side-stat-grid small{display:block;margin-top:3px;color:#9aa2af;font-size:10px}.side-steps{display:flex;flex-direction:column;gap:10px;margin:0;padding:0;list-style:none;color:#5f6977;font-size:12px}.side-steps li{display:flex;align-items:center;gap:8px}.side-steps span{display:grid;place-items:center;width:20px;height:20px;color:var(--zh-blue);background:#eaf4ff;border-radius:50%;font-size:11px}.side-notice p{margin:0;color:#8a94a2;font-size:12px;line-height:1.65}.side-notice a{display:inline-block;margin-top:10px;color:var(--zh-blue);font-size:12px}
 @media(max-width:900px){.home-layout{grid-template-columns:1fr}.home-aside{position:static;margin-top:0}.topnav{display:none}.top-search{display:none}}
+
+/* ---------- 争鸣首页的知乎式导航与侧栏 ---------- */
+.topnav { display:flex; align-items:center; gap:18px; height:100%; }
+.topnav-link { position:relative; display:flex; align-items:center; height:100%; color:#646f7e; font-size:14px; white-space:nowrap; }
+.topnav-link:hover, .topnav-link.active { color:var(--zh-blue); }
+.topnav-link.active::after { content:""; position:absolute; left:0; right:0; bottom:-1px; height:3px; border-radius:3px 3px 0 0; background:var(--zh-blue); }
+.top-search { display:flex; align-items:center; gap:6px; width:min(300px,25vw); height:32px; padding:0 5px 0 10px; border:1px solid #e2e6eb; border-radius:3px; background:#f7f8fa; }
+.top-search:focus-within { border-color:#8bb9ed; background:#fff; box-shadow:0 0 0 2px #e5f1ff; }
+.top-search-icon { color:#9aa2af; font-size:19px; line-height:1; transform:rotate(-20deg); }
+.top-search input { min-width:0; flex:1; border:0; outline:0; background:transparent; color:var(--text); font-size:13px; }
+.top-search input::placeholder { color:#a3aab4; }
+.top-search button { height:24px; padding:0 9px; border:0; border-radius:2px; background:var(--zh-blue); color:#fff; font-size:12px; }
+.top-actions { display:flex; align-items:center; gap:5px; }
+.top-action { padding:4px 6px; border:0; background:transparent; color:#8590a0; font-size:12px; }
+.top-action:hover { color:var(--zh-blue); }
+.home-layout { display:grid; grid-template-columns:minmax(0,1fr) 280px; gap:16px; align-items:start; margin-top:22px; }
+.home-layout .hero { margin-top:0; }
+.home-aside { position:sticky; top:68px; display:flex; flex-direction:column; gap:12px; }
+.side-card { padding:16px; border:1px solid var(--line); border-radius:var(--radius); background:#fff; box-shadow:var(--shadow); }
+.side-card-title { margin-bottom:12px; color:#556070; font-size:14px; font-weight:600; }
+.side-profile-row { display:flex; align-items:center; gap:9px; color:var(--text); font-size:13px; }
+.side-profile-row b { display:block; font-size:13px; }
+.side-profile-row small { display:block; margin-top:2px; color:#9aa2af; font-size:11px; }
+.side-avatar { display:grid; place-items:center; width:35px; height:35px; border-radius:50%; background:var(--zh-blue); color:#fff; font-size:15px; font-weight:700; }
+.side-stat-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:4px; margin-top:15px; padding-top:12px; border-top:1px solid var(--line); text-align:center; }
+.side-stat-grid b { display:block; color:var(--text); font-family:var(--font-num); font-size:17px; }
+.side-stat-grid small { display:block; margin-top:2px; color:#9aa2af; font-size:10px; white-space:nowrap; }
+.side-steps { display:flex; flex-direction:column; gap:10px; margin:0; padding:0; list-style:none; color:#687383; font-size:12.5px; }
+.side-steps li { display:flex; align-items:center; gap:8px; }
+.side-steps li span { display:grid; place-items:center; width:20px; height:20px; border-radius:50%; background:#edf5ff; color:var(--zh-blue); font-family:var(--font-num); font-size:11px; }
+.side-notice { color:#8a94a2; font-size:12px; line-height:1.7; }
+.side-notice p { margin:0 0 10px; }
+.side-notice a { color:var(--zh-blue); font-size:12px; }
+@media(max-width:900px) { .home-layout { grid-template-columns:1fr; } .home-aside { position:static; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); } }
+@media(max-width:640px) { .topnav, .top-search, .top-actions { display:none; } .home-aside { display:flex; } }
+/* backwards-compatible aliases used by view modules */
+:root {
+  --text-100: var(--text); --text-200: #3b4045; --text-300: var(--muted); --text-400: #9aa2af;
+  --line-strong: var(--line);
+  --side-a: var(--a); --side-a-dim: rgba(5,109,232,.09);
+  --side-b: var(--b); --side-b-dim: rgba(240,138,36,.10);
+  --side-c: var(--c); --side-c-dim: rgba(24,160,128,.10);
+  --side-d: var(--d); --side-d-dim: rgba(179,93,219,.10);
+  --font-cjk: var(--font); --font-num: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --radius-s: 3px; --radius-m: 4px; --radius-l: 8px;
+  --ok: #18a080; --warn: #d89000; --danger: #c74848;
+}
