@@ -61,7 +61,7 @@ export function createDebateView(container, { analysis, onFinish, onExit }) {
 
     container.querySelector('#debateTitle').textContent = analysis.query;
     mount(container.querySelector('#debateMeta'),
-      h('span', { class: 'mode-pill live' }, h('span', { class: 'mode-dot' }), h('span', { text: `你 · ${me.name}` })),
+      h('span', { class: 'mode-pill' }, h('span', { class: 'mode-dot' }), h('span', { text: `你 · ${me.name}` })),
       h('span', { class: 'mode-pill' }, h('span', { text: '回应对象 · ' }, h('b', { text: opp.name }))),
       h('span', { class: 'mode-pill' }, h('span', {
         text: llmAvailable() ? '模型裁判 · 四维打分' : '本地裁判 · 规则引擎（可在设置里换成模型）',
