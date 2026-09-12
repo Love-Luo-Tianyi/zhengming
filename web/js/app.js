@@ -7,15 +7,15 @@
 
 import {
   loadSettings, saveSettings, resetSettings, detectBackend, modeLabel, settings, runtime,
-} from './config.js?v=20260912h';
-import { fetchAnswers, loadTopic, clearCache, ZhihuError } from './providers.js?v=20260912h';
-import { clusterStances, buildReport } from './pipeline.js?v=20260912h';
-import { llmAvailable } from './llm.js?v=20260912h';
-import { h, mount, loading, notice, copyText } from './dom.js?v=20260912h';
-import { renderHome } from './views/home.js?v=20260912h';
-import { renderArena } from './views/arena.js?v=20260912h';
-import { createDebateView } from './views/debate.js?v=20260912h';
-import { renderReport } from './views/report.js?v=20260912h';
+} from './config.js?v=20260912i';
+import { fetchAnswers, loadTopic, clearCache, ZhihuError } from './providers.js?v=20260912i';
+import { clusterStances, buildReport } from './pipeline.js?v=20260912i';
+import { llmAvailable } from './llm.js?v=20260912i';
+import { h, mount, loading, notice, copyText } from './dom.js?v=20260912i';
+import { renderHome } from './views/home.js?v=20260912i';
+import { renderArena } from './views/arena.js?v=20260912i';
+import { createDebateView } from './views/debate.js?v=20260912i';
+import { renderReport } from './views/report.js?v=20260912i';
 
 const app = { analysis: null, report: null, topicId: null };
 let debateView = null;
@@ -144,7 +144,7 @@ function refreshModePill() {
   document.getElementById('footerMode').textContent =
     `当前运行姿态：${m.text}`
     + (m.backendReady ? ' · 后端已连接' : ' · 未连接后端')
-    + (m.llm === 'offline' ? '（未配置模型时使用可解释的本地裁判规则引擎）' : '');
+    + (m.llm === 'offline' ? '（未配置模型时使用可解释的本地回答体检规则）' : '');
 }
 
 function readSession() {

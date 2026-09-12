@@ -9,7 +9,7 @@
  * 每一层都有「模型版」和「本地规则版」两条实现，模型不可用时不会白屏。
  */
 
-import { chat, llmAvailable } from './llm.js?v=20260912h';
+import { chat, llmAvailable } from './llm.js?v=20260912i';
 
 export const STANCE_COLORS = [
   { c: '#2f8bff', dim: 'rgba(47,139,255,0.14)', bd: 'rgba(47,139,255,0.36)' },
@@ -333,7 +333,7 @@ ${oppArgs}
 用户当前立场：${myStance.name}（${myStance.thesis}）
 用户立场的主要论据：
 ${myArgs}
-对手阵营可引用的真实来源：
+回应对象可引用的真实来源：
 ${ev}
 
 此前交锋：
@@ -477,7 +477,7 @@ async function reportSummary({ query, myStance, dims, total, maxTotal, underesti
   const text = await chat([
     {
       role: 'system',
-      content: '你是「争鸣」的评论员。用 2–3 句话给用户一份收尾评价：先说他论证风格的特点，再说他如果继续这场争论最该做的一件事。不要客套，不要复述分数。直接输出文本，不要 JSON。',
+    content: '你是「争鸣」的评论员。用 2–3 句话给用户一份收尾评价：先说他回应草稿的论证风格，再说他下一步最该核对的一件事。不要客套，不要复述分数。直接输出文本，不要 JSON。',
     },
     {
       role: 'user',

@@ -3,9 +3,9 @@
  * 每一次回应都被按四维体检——这是「观点复核」和单纯表达态度的区别。
  */
 
-import { h, mount, loading, clear, typewriter, authorityBadge, sourceLink } from '../dom.js?v=20260912h';
-import { debateTurn, JUDGE_DIMS, STANCE_COLORS } from '../pipeline.js?v=20260912h';
-import { llmAvailable } from '../llm.js?v=20260912h';
+import { h, mount, loading, clear, typewriter, authorityBadge, sourceLink } from '../dom.js?v=20260912i';
+import { debateTurn, JUDGE_DIMS, STANCE_COLORS } from '../pipeline.js?v=20260912i';
+import { llmAvailable } from '../llm.js?v=20260912i';
 
 const MAX_ROUNDS = 5;
 
@@ -64,7 +64,7 @@ export function createDebateView(container, { analysis, onFinish, onExit }) {
       h('span', { class: 'mode-pill' }, h('span', { class: 'mode-dot' }), h('span', { text: `你 · ${me.name}` })),
       h('span', { class: 'mode-pill' }, h('span', { text: '回应对象 · ' }, h('b', { text: opp.name }))),
       h('span', { class: 'mode-pill' }, h('span', {
-        text: llmAvailable() ? '模型裁判 · 四维打分' : '本地裁判 · 规则引擎（可在设置里换成模型）',
+        text: llmAvailable() ? '模型体检 · 四维评分' : '本地体检规则（可在设置里换成模型）',
       })));
 
     renderOpponentPanel(opp);
@@ -167,7 +167,7 @@ export function createDebateView(container, { analysis, onFinish, onExit }) {
 
     stream.append(h('div', { class: 'judge' },
       h('div', { class: 'judge-head' },
-        h('span', { class: 'judge-title', text: `裁判 · ${engine === 'llm' ? '模型' : '本地规则'}` }),
+        h('span', { class: 'judge-title', text: `回答体检 · ${engine === 'llm' ? '模型' : '本地规则'}` }),
         h('span', { class: 'judge-total', text: `${total}` }, h('span', { class: 'tiny muted', text: ' / 20' }))),
       dims,
       comment ? h('div', { class: 'judge-comment' }, h('b', { text: '点评：' }), comment) : null,

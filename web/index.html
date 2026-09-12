@@ -10,7 +10,7 @@
 <meta property="og:description" content="看见分歧结构，写出自己的回应，并回到知乎原回答核对。" />
 <meta property="og:type" content="website" />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230b0e17'/%3E%3Cpath d='M16 5l7 11-7 11-7-11z' fill='none' stroke='%232f8bff' stroke-width='2'/%3E%3Cpath d='M16 5l7 11-7 3z' fill='%23ffa63d'/%3E%3C/svg%3E" />
-<link rel="stylesheet" href="./css/styles.css?v=20260912h" />
+<link rel="stylesheet" href="./css/styles.css?v=20260912i" />
 </head>
 <body>
 
@@ -225,13 +225,13 @@
     </div>
 
     <div class="field">
-      <label>推理模型（用于立场聚类、生成论证、裁判打分）</label>
+      <label>推理模型（用于立场聚类、生成论证、回答体检）</label>
       <div class="seg" id="segLlm">
-        <button data-v="offline">本地裁判（无需密钥）</button>
+        <button data-v="offline">本地体检规则（无需密钥）</button>
         <button data-v="byok">自带 Key 的 OpenAI 兼容接口</button>
         <button data-v="backend">项目后端</button>
       </div>
-      <div class="help">没有模型密钥时，争鸣使用内置的「本地裁判」规则引擎，保证 Demo 一定能跑通。</div>
+      <div class="help">没有模型密钥时，争鸣使用内置的本地规则完成回答体检，保证 Demo 一定能跑通。</div>
     </div>
 
     <div id="byokFields" class="hidden">
@@ -262,6 +262,6 @@
   </div>
 </div>
 
-<script type="module" src="./js/app.js?v=20260912h"></script>
+<script type="module" src="./js/app.js?v=20260912i"></script>
 </body>
 </html>

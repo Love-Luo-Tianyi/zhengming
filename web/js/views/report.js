@@ -5,8 +5,8 @@
  * 所以报告的重心是四维画像 + 你可能低估的那一方，而不是分数本身。
  */
 
-import { h, mount, clear, votes, authorityBadge, sourceLink, download, copyText, polar } from '../dom.js?v=20260912h';
-import { JUDGE_DIMS, posterLine } from '../pipeline.js?v=20260912h';
+import { h, mount, clear, votes, authorityBadge, sourceLink, download, copyText, polar } from '../dom.js?v=20260912i';
+import { JUDGE_DIMS, posterLine } from '../pipeline.js?v=20260912i';
 
 export function renderReport(container, { report, analysis, topicId, onRestart }) {
   const { myStance, opponentStance } = report;
