@@ -61,10 +61,17 @@ async function route() {
 
     // A GitHub Pages reload has no in-memory state. Restore the last offline
     // snapshot when possible; live analyses intentionally fall back home.
-    if ((wantsArena || wantsDebate || wantsReport) && !app.analysis) {
+    // Deep links may carry a snapshot id (e.g. #/arena/ai-programmer). Prefer
+    // that explicit id over the last local session so shared links open the
+    // same question for another person.
+    const deepTopicId = wantsArena
+      ? decodeURIComponent((hash.match(/^arena\/([^/?#]+)/) || [])[1] || '')
+      : '';
+    if ((wantsArena || wantsDebate || wantsReport) && (!app.analysis || (deepTopicId && app.topicId !== deepTopicId))) {
       const saved = readSession();
-      if (saved?.topicId) {
-        await openSnapshot(saved.topicId, { navigate: false });
+      const restoreId = deepTopicId || saved?.topicId;
+      if (restoreId) {
+        await openSnapshot(restoreId, { navigate: false });
       }
     }
 
@@ -197,7 +204,7 @@ async function analyze(rawQuery) {
       onEnterDebate: (sid) => enterDebate(sid, false),
       onEnterAsOpponent: (sid) => enterDebate(sid, true),
     });
-    go('#/arena');
+    go(app.topicId ? `#/arena/${encodeURIComponent(app.topicId)}` : '#/arena');
   } catch (err) {
     const msg = err instanceof ZhihuError
       ? `${err.message}<br />可以切回离线快照，或从样本库里挑一个话题。`
@@ -247,7 +254,7 @@ async function openSnapshot(id, { navigate = true } = {}) {
       onEnterDebate: (sid) => enterDebate(sid, false),
       onEnterAsOpponent: (sid) => enterDebate(sid, true),
     });
-    if (navigate) go('#/arena');
+    if (navigate) go(`#/arena/${encodeURIComponent(id)}`);
   } catch (err) {
     mount(document.getElementById('stanceGrid'), notice(`快照载入失败：${err.message}`, 'err'));
   }
@@ -278,6 +285,7 @@ function enterDebate(stanceId, asOpponent) {
       renderReport(views.report, {
         report,
         analysis: app.analysis,
+        topicId: app.topicId,
         onRestart: () => {
           app.report = null;
           if (app.analysis) enterDebate(myStance.id, false);
