@@ -4,7 +4,7 @@
  */
 
 import { h, mount, loading, clear, typewriter, authorityBadge, sourceLink } from '../dom.js?v=20260912c';
-import { debateTurn, JUDGE_DIMS, STANCE_COLORS } from '../pipeline.js?v=20260912c';
+import { debateTurn, JUDGE_DIMS, STANCE_COLORS } from '../pipeline.js?v=20260912f';
 import { llmAvailable } from '../llm.js?v=20260912c';
 
 const MAX_ROUNDS = 5;

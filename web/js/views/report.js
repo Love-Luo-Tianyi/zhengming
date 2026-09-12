@@ -6,7 +6,7 @@
  */
 
 import { h, mount, clear, votes, authorityBadge, sourceLink, download, copyText, polar } from '../dom.js?v=20260912c';
-import { JUDGE_DIMS, posterLine } from '../pipeline.js?v=20260912c';
+import { JUDGE_DIMS, posterLine } from '../pipeline.js?v=20260912f';
 
 export function renderReport(container, { report, analysis, topicId, onRestart }) {
   const { myStance, opponentStance } = report;
@@ -18,10 +18,10 @@ export function renderReport(container, { report, analysis, topicId, onRestart }
 
   drawRadar(container.querySelector('#radar'), report);
   container.querySelector('#radarNote').textContent =
-    '四维各 0–5 分，由裁判对每一轮发言独立评分后取均值';
+    '四维各 0–5 分，由系统对每一次回应独立评分后取均值';
 
   mount(container.querySelector('#reportStats'),
-    stat('回合数', report.turns, ''),
+    stat('提交次数', report.turns, ''),
     stat('四维总分', report.total.toFixed(1), `/ ${report.maxTotal}`),
     stat('引用来源', report.citations, '处'),
     stat('回应对象的加权支持', `${Math.round(opponentStance.support * 100)}%`, ''));
@@ -240,7 +240,7 @@ function drawPoster(canvas, { report, analysis, myStance }) {
   const boxW = (W - 156 - 24) / 2;
 
   drawSideBox(ctx, 78, y, boxW, 150, myStance, '你站这一方');
-  drawSideBox(ctx, 78 + boxW + 24, y, boxW, 150, report.opponentStance, '对手阵营');
+  drawSideBox(ctx, 78 + boxW + 24, y, boxW, 150, report.opponentStance, '回应对象');
 
   y += 196;
 
@@ -304,7 +304,7 @@ function drawPoster(canvas, { report, analysis, myStance }) {
   ctx.fillStyle = '#5f6878';
   ctx.font = font(17);
   ctx.fillText('知乎黑客松 2026 · 校园新锐季 · 灵魂匹配局', 78, H - 96);
-  ctx.fillText('zhihu-hackathon · 观点陪练 / 破茧工具', 78, H - 68);
+  ctx.fillText('zhihu-hackathon · 观点复核 / 社区连接', 78, H - 68);
   ctx.fillStyle = 'rgba(47,139,255,0.9)';
   ctx.font = font(17, '600');
   ctx.fillText('争鸣', W - 78 - ctx.measureText('争鸣').width, H - 96);

@@ -9,7 +9,7 @@ import {
   loadSettings, saveSettings, resetSettings, detectBackend, modeLabel, settings, runtime,
 } from './config.js?v=20260912c';
 import { fetchAnswers, loadTopic, clearCache, ZhihuError } from './providers.js?v=20260912c';
-import { clusterStances, buildReport } from './pipeline.js?v=20260912c';
+import { clusterStances, buildReport } from './pipeline.js?v=20260912f';
 import { llmAvailable } from './llm.js?v=20260912c';
 import { h, mount, loading, notice, copyText } from './dom.js?v=20260912c';
 import { renderHome } from './views/home.js?v=20260912c';
