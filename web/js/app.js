@@ -11,7 +11,7 @@ import {
 import { fetchAnswers, loadTopic, clearCache, ZhihuError } from './providers.js?v=20260912c';
 import { clusterStances, buildReport } from './pipeline.js?v=20260912c';
 import { llmAvailable } from './llm.js?v=20260912c';
-import { h, mount, loading, notice } from './dom.js?v=20260912c';
+import { h, mount, loading, notice, copyText } from './dom.js?v=20260912c';
 import { renderHome } from './views/home.js?v=20260912c';
 import { renderArena } from './views/arena.js?v=20260912c';
 import { createDebateView } from './views/debate.js?v=20260912c';
@@ -373,7 +373,7 @@ function bindUi() {
   });
   document.getElementById('topInviteBtn')?.addEventListener('click', async (e) => {
     const url = `${location.origin}${location.pathname}#/`;
-    try { await navigator.clipboard?.writeText(`来看看争鸣的问题分歧地图：${url}`); e.currentTarget.textContent = '已复制'; }
+    try { const ok = await copyText(`来看看争鸣的问题分歧地图：${url}`); e.currentTarget.textContent = ok ? '已复制' : '复制失败'; }
     catch { e.currentTarget.textContent = '请从报告页分享'; }
     setTimeout(() => { e.currentTarget.textContent = '邀请'; }, 1800);
   });
