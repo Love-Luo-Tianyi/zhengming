@@ -5,8 +5,8 @@
  * 所以报告的重心是四维画像 + 你可能低估的那一方，而不是分数本身。
  */
 
-import { h, mount, clear, votes, authorityBadge, sourceLink, download, copyText, polar } from '../dom.js?v=20260912j';
-import { JUDGE_DIMS, posterLine } from '../pipeline.js?v=20260912j';
+import { h, mount, clear, votes, authorityBadge, sourceLink, download, copyText, polar } from '../dom.js?v=20260912k';
+import { JUDGE_DIMS, posterLine } from '../pipeline.js?v=20260912k';
 
 export function renderReport(container, { report, analysis, topicId, onRestart }) {
   const { myStance, opponentStance } = report;
@@ -61,6 +61,7 @@ export function renderReport(container, { report, analysis, topicId, onRestart }
         h('div', { class: 'author-headline', text: a.title })),
       authorityBadge(a.authorityLevel),
       h('span', { class: 'tiny num muted', text: `赞同 ${votes(a.voteUp)}` }),
+      h('span', { class: 'tiny muted', text: `回答 ID ${a.answerId || '未知'}` }),
       sourceLink(a))));
   } else {
     mount(authors, h('div', { class: 'tiny muted', text: '本场没有检索到与你立场不同的独立作者。' }));

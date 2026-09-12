@@ -94,3 +94,4 @@
   .topbar-inner { gap:12px; }
   .top-search { width:min(280px,42vw); min-width:150px; }
 }
+.evidence-copy{cursor:pointer;background:#fff;color:var(--zh-blue)}

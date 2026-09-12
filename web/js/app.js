@@ -7,15 +7,15 @@
 
 import {
   loadSettings, saveSettings, resetSettings, detectBackend, modeLabel, settings, runtime,
-} from './config.js?v=20260912j';
-import { fetchAnswers, loadTopic, clearCache, ZhihuError } from './providers.js?v=20260912j';
-import { clusterStances, buildReport } from './pipeline.js?v=20260912j';
-import { llmAvailable } from './llm.js?v=20260912j';
-import { h, mount, loading, notice, copyText } from './dom.js?v=20260912j';
-import { renderHome } from './views/home.js?v=20260912j';
-import { renderArena } from './views/arena.js?v=20260912j';
-import { createDebateView } from './views/debate.js?v=20260912j';
-import { renderReport } from './views/report.js?v=20260912j';
+} from './config.js?v=20260912k';
+import { fetchAnswers, loadTopic, clearCache, ZhihuError } from './providers.js?v=20260912k';
+import { clusterStances, buildReport } from './pipeline.js?v=20260912k';
+import { llmAvailable } from './llm.js?v=20260912k';
+import { h, mount, loading, notice, copyText } from './dom.js?v=20260912k';
+import { renderHome } from './views/home.js?v=20260912k';
+import { renderArena } from './views/arena.js?v=20260912k';
+import { createDebateView } from './views/debate.js?v=20260912k';
+import { renderReport } from './views/report.js?v=20260912k';
 
 const app = { analysis: null, report: null, topicId: null };
 let debateView = null;

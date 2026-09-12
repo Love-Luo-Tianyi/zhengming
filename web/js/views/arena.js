@@ -3,7 +3,7 @@
  * 页面结构本身就是产品主张——分歧不是要被总结掉的噪声，而是要被并排看见的主语。
  */
 
-import { h, mount, authorityBadge, sourceLink, votes, clear } from '../dom.js?v=20260912j';
+import { h, mount, authorityBadge, sourceLink, votes, clear, copyText } from '../dom.js?v=20260912k';
 
 export function renderArena(container, { analysis, onEnterDebate, onEnterAsOpponent }) {
   const { query, stances, controversy, keyline, answers } = analysis;
@@ -123,7 +123,16 @@ function buildDrawer(drawer, stance, analysis) {
         authorityBadge(a.authorityLevel),
         h('span', { text: `赞同 ${votes(a.voteUp)}` }),
         h('span', { text: `评论 ${votes(a.commentCount)}` }),
-        sourceLink(a))));
+        sourceLink(a),
+        h('button', {
+          class: 'badge evidence-copy', type: 'button',
+          onclick: async (e) => {
+            const citation = `「${a.title}」——${a.author}（回答 ID ${a.answerId || '未知'}）\n${a.url}`;
+            const ok = await copyText(citation);
+            e.currentTarget.textContent = ok ? '引用已复制' : '复制失败';
+            setTimeout(() => { e.currentTarget.textContent = '复制引用'; }, 1600);
+          },
+        }, '复制引用')));
   }
 }
 
