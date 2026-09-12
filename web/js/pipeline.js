@@ -9,7 +9,7 @@
  * 每一层都有「模型版」和「本地规则版」两条实现，模型不可用时不会白屏。
  */
 
-import { chat, llmAvailable } from './llm.js?v=20260912c';
+import { chat, llmAvailable } from './llm.js?v=20260912h';
 
 export const STANCE_COLORS = [
   { c: '#2f8bff', dim: 'rgba(47,139,255,0.14)', bd: 'rgba(47,139,255,0.36)' },

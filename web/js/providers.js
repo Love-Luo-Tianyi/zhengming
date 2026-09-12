@@ -7,7 +7,7 @@
  * 这样下游的分析引擎完全不需要知道数据是从哪来的。
  */
 
-import { settings, backendBase, effectiveMode, runtime } from './config.js?v=20260912c';
+import { settings, backendBase, effectiveMode, runtime } from './config.js?v=20260912h';
 
 const API_BASE = 'https://developer.zhihu.com';
 const CACHE_PREFIX = 'zhengming.cache.';
