@@ -259,7 +259,7 @@ function distinctiveKeywords(inList, allAnswers) {
   return scored.map(([g]) => g).slice(0, 8);
 }
 
-/* ------------------------------------------------------- 2. 辩论回合 */
+/* ------------------------------------------------------- 2. 回应草稿体检 */
 
 /**
  * @param {object} ctx { query, stances, myStance, opponentStance, history, message }
@@ -271,8 +271,8 @@ export async function debateTurn({ query, myStance, opponentStance, history, mes
       const raw = await chat(debatePrompt({ query, myStance, opponentStance, history, message }),
         { json: true, temperature: 0.7, maxTokens: 1800 });
       return { ...normalizeTurn(raw), engine: 'llm' };
-    } catch (err) {
-      console.warn('[争鸣] 模型裁判失败，退回本地规则：', err.message);
+  } catch (err) {
+      console.warn('[争鸣] 模型体检失败，退回本地规则：', err.message);
     }
   }
   return { ...localTurn({ opponentStance, history, message }), engine: 'local' };
@@ -308,16 +308,16 @@ function debatePrompt({ query, myStance, opponentStance, history, message }) {
       role: 'system',
       content: `你是「争鸣」的回应体检引擎。用户选定一个观点坐标，你基于已展示的对立阵营知乎快照论据，帮助检查回应草稿；不要模拟或冒充真实答主。
 
-扮演规则：
-- 你是「${opponentStance.name}」：${opponentStance.thesis}
-- 你的弹药只有下面这些真实论据，不要编造事实、数据或引用：
+回应对象：
+- 观点名称「${opponentStance.name}」：${opponentStance.thesis}
+- 可引用材料只有下面这些真实论据，不要编造事实、数据或引用：
 ${oppArgs}
 
 回应检查规则：
 - reply：以回应对象的观点为参照，给出 2–4 句具体反馈，指出用户草稿尚未覆盖的代价或前提。不要礼貌性收尾，不要复述用户原话。
 - 不要泛泛讲平衡，优先指出成立条件与证据缺口。
-- probe：给用户一个必须正面回答的追问，一句话。
-- 裁判部分对**用户的发言**打分，四个维度各 0–5 分：
+- probe：给用户一个需要继续核对的追问，一句话。
+- 体检部分对**用户的回应草稿**打分，四个维度各 0–5 分：
   - grounding 依据：是否落到具体事实、来源、数字，而非空泛表态
   - relevance 切题：是否正面回应了你上一轮的核心主张，而不是自说自话
   - logic 逻辑：是否有绝对化（必然/肯定/所有人）、诉诸情绪、偷换概念；有因果链条与限定条件得分更高
@@ -336,16 +336,16 @@ ${myArgs}
 回应对象可引用的真实来源：
 ${ev}
 
-此前交锋：
+此前回应记录：
 ${hist}
 
-用户本轮发言：
+用户本轮回应：
 ${message}`,
     },
   ];
 }
 
-/** 无模型时的裁判：可解释的规则引擎，且对手回击直接取自该阵营真实论据 */
+/** 无模型时的回答体检：可解释的规则引擎，反馈取自回应对象的真实论据 */
 function localTurn({ opponentStance, history, message }) {
   const text = String(message || '');
   const myTurns = history.filter((h) => h.role === 'me').map((h) => h.content);
@@ -356,7 +356,7 @@ function localTurn({ opponentStance, history, message }) {
   const authorHits = opponentStance.representatives.filter((r) => text.includes(r.author)).length;
   const grounding = clamp05(1.5 + citeHits * 1.1 + authorHits * 1.4 + (text.length > 60 ? 0.7 : 0));
 
-  // 切题：与对手上一轮关键 2-gram 的重合度
+  // 切题：与回应对象上一条观点提示的关键 2-gram 重合度
   let relevance = 2.4;
   if (prevOpp) {
     const a = new Set(bigrams(prevOpp.content).slice(0, 60));
@@ -371,7 +371,7 @@ function localTurn({ opponentStance, history, message }) {
   const causal = countMarkers(text, CAUSAL_MARKERS);
   const logic = clamp05(2.6 + causal * 0.55 + hedge * 0.5 - fallacy * 1.05);
 
-  // 增量：本次发言引入了多少此前没用过的词
+  // 增量：本次回应引入了多少此前没用过的词
   const prevGrams = new Set(myTurns.flatMap((t) => bigrams(t)));
   const curGrams = [...new Set(bigrams(text))];
   const fresh = curGrams.filter((g) => !prevGrams.has(g)).length / Math.max(curGrams.length, 1);
@@ -379,7 +379,7 @@ function localTurn({ opponentStance, history, message }) {
 
   const scores = { grounding, relevance, logic, novelty };
 
-  // 对手回击：挑一条"用户最没回应到"的真实论据
+  // 回应提示：挑一条"用户最没覆盖到"的真实论据
   const unused = opponentStance.arguments.filter(
     (a) => !bigrams(text).some((g) => bigrams(a.text).includes(g)),
   );
