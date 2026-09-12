@@ -95,7 +95,8 @@ async function route() {
       // A debate/report transcript is ephemeral and cannot be reconstructed
       // safely after reload; keep the user on the restored arena instead.
       if (app.analysis) {
-        show('arena');
+    show('arena');
+    document.getElementById('arenaMeta')?.setAttribute('aria-busy', 'true');
         document.getElementById('arenaMeta').append(notice(
           '对练记录只保存在当前页面，刷新后无法恢复。已回到该话题的分歧地图，请重新入座。', ''));
         const arenaHash = app.topicId ? `#/arena/${encodeURIComponent(app.topicId)}` : '#/arena';
@@ -224,6 +225,7 @@ async function analyze(rawQuery) {
       onEnterDebate: (sid) => enterDebate(sid, false),
       onEnterAsOpponent: (sid) => enterDebate(sid, true),
     });
+    document.getElementById('arenaMeta')?.setAttribute('aria-busy', 'false');
     go(app.topicId ? `#/arena/${encodeURIComponent(app.topicId)}` : '#/arena');
   } catch (err) {
     const msg = err instanceof ZhihuError
@@ -231,6 +233,7 @@ async function analyze(rawQuery) {
       : err.code === 'NOT_IN_LIBRARY'
         ? `样本库里没有「${query}」这个话题。<br />两个办法：① 从样本库里挑一个；② 在右上角「设置」里填入知乎开放平台 Access Secret，就能拆解任意话题。`
         : err.message;
+    document.getElementById('arenaMeta')?.setAttribute('aria-busy', 'false');
     mount(grid, notice(msg, 'err'));
   }
 }
