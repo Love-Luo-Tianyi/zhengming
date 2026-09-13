@@ -4,6 +4,8 @@
 
 ## 1. 官方赛事文章（证据）
 
+当前公开 Hackathon 页面：<https://www.zhihu.com/hackathon>；页面导航可见“参赛队伍”“活动介绍”“申请 API 密钥与接口文档”“获奖公示”。第二期活动页为 <https://www.zhihu.com/hackathon?activity_code=zhihu_hackathon_2026_p2>，公开状态曾显示“组队已截止，当前无法创建或修改队伍”，提交权限仍需登录后核验。
+
 来源：<https://zhuanlan.zhihu.com/p/2072692085925177157>
 
 页面明确写出：
@@ -24,6 +26,8 @@
 置顶说明该圈子用于发布：活动通知、时间节点、赛道解读、参赛指南、API 文档、技术支持资料、嘉宾/路演信息和项目动态。置顶自身的“报名截止 5 月 8 日、5 月 12 日开赛、5 月 16 日路演”明显属于早期公告，不能当作当前 2026-09 时间线。
 
 ## 3. 官方提供的 AI Works 部署 Skill
+
+当前页面内嵌的 Skill 指令、活动代码、API 入口可能随期次变化；不要仅依赖旧版本 helper 或旧 Access Secret 文档。提交前应以官方当前页面显示的下载地址和 API quickstart 为准。
 
 官方 Hackathon 页面：<https://www.zhihu.com/hackathon> 页面内可发现 Skill ZIP：
 
