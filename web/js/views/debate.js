@@ -3,9 +3,9 @@
  * 每一次回应都被按四维体检——这是「观点复核」和单纯表达态度的区别。
  */
 
-import { h, mount, loading, clear, typewriter, authorityBadge, sourceLink } from '../dom.js?v=20260912n';
-import { debateTurn, JUDGE_DIMS, STANCE_COLORS } from '../pipeline.js?v=20260912n';
-import { llmAvailable } from '../llm.js?v=20260912n';
+import { h, mount, loading, clear, typewriter, authorityBadge, sourceLink } from '../dom.js?v=20260913a';
+import { debateTurn, JUDGE_DIMS, STANCE_COLORS } from '../pipeline.js?v=20260913a';
+import { llmAvailable } from '../llm.js?v=20260913a';
 
 const MAX_ROUNDS = 5;
 

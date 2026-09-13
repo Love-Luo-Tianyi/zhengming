@@ -11,7 +11,7 @@ const STORAGE_KEY = 'zhengming.settings.v1';
 
 const DEFAULTS = {
   dataMode: 'demo',      // demo | live
-  secret: '',            // 知乎开放平台 Access Secret
+  secret: '',            // 知乎官方 API 凭据（格式以当前 quickstart 为准）
   llmMode: 'offline',    // offline | byok | backend
   baseUrl: '',
   apiKey: '',

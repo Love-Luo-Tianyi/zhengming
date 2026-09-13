@@ -1,6 +1,6 @@
 /** 首页：一句话说清产品主张，然后立刻让用户动手。 */
 
-import { h, mount, loading, notice } from '../dom.js?v=20260912n';
+import { h, mount, loading, notice } from '../dom.js?v=20260913a';
 
 const QUICK = [
   'AI 会取代程序员吗',
@@ -49,7 +49,7 @@ export function renderHome(container, { onPick, onAnalyze, onFreeform }) {
   if (libraryHint) libraryHint.textContent = '';
 
   (async () => {
-    const { loadTopicIndex } = await import('../providers.js?v=20260912n');
+    const { loadTopicIndex } = await import('../providers.js?v=20260913a');
     try {
       const index = await loadTopicIndex();
       if (libraryHint) {
