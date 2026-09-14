@@ -26,29 +26,34 @@ export function createDebateView(container, { analysis, onFinish, onExit }) {
   const btnSend = container.querySelector('#btnSend');
   const btnSwap = container.querySelector('#btnSwapSide');
   const btnEnd = container.querySelector('#btnEndDebate');
+  const btnBack = container.querySelector('#debateBack');
   const hint = container.querySelector('#composerHint');
 
-  btnSend.addEventListener('click', send);
-  input.addEventListener('keydown', (e) => {
+  // These controls live in the static shell and are reused across rounds.
+  // Property handlers replace the previous view's closures instead of
+  // accumulating listeners that can consume the next view's draft.
+  btnSend.onclick = send;
+  input.onkeydown = (e) => {
     if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) send();
-  });
-  btnSwap.addEventListener('click', () => {
+  };
+  btnSwap.onclick = () => {
     if (state.busy || state.finished) return;
     const t = state.myId;
     state.myId = state.oppId;
     state.oppId = t;
     state.history = [];
     start();
-  });
-  btnEnd.addEventListener('click', () => {
+  };
+  btnEnd.onclick = () => {
     if (state.busy) return;
     finish();
-  });
-  container.querySelector('#debateBack').addEventListener('click', (e) => {
+  };
+  btnBack.onclick = (e) => {
     e.preventDefault();
     if (state.busy) return;
+    state.finished = true;
     onExit();
-  });
+  };
 
   function stanceById(id) {
     return analysis.stances.find((s) => s.id === id) || analysis.stances[0];
